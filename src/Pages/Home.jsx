@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Banner from '../components/Banner'
-import Card from "../components/Card";
-import Jobs from './Jobs';
+import JobCard from "../components/JobCard";
+import Jobs from './Jobs/Jobs';
 import Sidebar from '../Sidebar/Sidebar';
 import Newsletter from '../components/Newsletter';
 import { get } from '../utils/request';
@@ -13,24 +13,11 @@ const Home = () => {
   const [jobs, setJobs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const [isLoading, setIsLoading] = useState(true);
 
+  const { isLoading, data } = get("listJob", "/jobs")
   useEffect(() => {
-    fetch("jobs.json").then(res => res.json()).then((data) => {
-      // Use data here or set it to state
-      // console.log(data); // This will work fine here
-      setJobs(data); // Set the data to state if you want to use it elsewhere in your component
-      setIsLoading(false)
-    })
-  }, []);
-
-  useEffect(() => {
-    get("/jobs").then((response) => {
-      console.log(response)
-    })
-  }, []);
-
-
+    if (data) setJobs(data.data || [])
+  }, [data])
 
   // ----------- Input Filter -----------
   const [query, setQuery] = useState("");
@@ -41,7 +28,7 @@ const Home = () => {
 
   //------------filter by job title-----
   const filteredItems = jobs.filter(
-    (job) => job.jobTitle.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    (job) => job?.name?.toLowerCase().indexOf(query.toLowerCase()) !== -1
   );
   // console.log(filteredItems);
 
@@ -113,7 +100,7 @@ const Home = () => {
     const { startIndex, endIndex } = calculatePageRange();
     filteredJobs = filteredJobs.slice(startIndex, endIndex);
 
-    return filteredJobs.map((data, i) => <Card key={i} data={data} />);
+    return filteredJobs.map((data, i) => <JobCard key={i} data={data} />);
   };
 
   const result = filteredData(jobs, selectedCategory, query);
@@ -182,4 +169,3 @@ const Home = () => {
 }
 
 export default Home
-Home

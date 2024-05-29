@@ -1,6 +1,9 @@
 import rootApi from "./rootAPi"
+import { useQuery } from 'react-query';
 
-export const get = async (url) => {
-    const response = await rootApi.get(url);
-    return response
+export const get = (key, url) => {
+    return useQuery(key, 
+        () => rootApi.get(url).then(res => res.data),
+        {refetchOnWindowFocus: false}
+    )
 }
