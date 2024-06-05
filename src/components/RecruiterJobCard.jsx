@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import formatDate from "../utils";
 
-const JobCard = ({ data }) => {
+const RecruiterJobCard = ({ data }) => {
   const { id, name, poster, min_price, max_price, price_unit, created_at, end_date, description } = data;
   const posterName = `${poster?.information?.fname} ${poster?.information?.lname}`
   const createDate = formatDate(created_at)
@@ -10,7 +10,7 @@ const JobCard = ({ data }) => {
   return (
     <div>
       <section className="card">
-        <Link to={`/jobs/${id}`} className="flex gap-4 flex-col sm:flex-row items-start mb-2">
+        <Link to={`/recruiters/jobs/${id}`} className="flex gap-4 flex-col sm:flex-row items-start mb-2">
           <div className="card-details">
             <h3 className="text-2xl font-semibold mb-2">{name}</h3>
 
@@ -24,13 +24,9 @@ const JobCard = ({ data }) => {
             <p className="text-base text-primary/70 truncate max-w-sm">{description}</p>
           </div>
         </Link>
-        <div className="flex items-center">
-          <img src={poster?.information?.avatar} alt={posterName} className="w-10 h-10 rounded-full" />
-          <span className="text-primary ml-2"> Post by: {posterName}</span>
-        </div>
       </section>
     </div >
   );
 };
 
-export default JobCard;
+export default RecruiterJobCard;

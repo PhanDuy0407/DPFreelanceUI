@@ -10,7 +10,8 @@ const rootApi = axios.create({
 rootApi.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    config.headers.Authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmMiLCJleHAiOjE3MTk2MDEzMTB9.zZqxHOtpd0FjKTtsQ0GkuUI-o7P1bJVjRxFM3db0ZKc';
+    const token = localStorage.getItem("access_token");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
 );

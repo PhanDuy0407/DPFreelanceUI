@@ -8,13 +8,12 @@ import { get } from '../utils/request';
 
 
 const Home = () => {
-
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const { isLoading, data } = get("listJob", "/jobs")
+  const { isLoading, data } = get("listJob", "/jobs", { order_by: 'created_at:desc', status__eq: 'OPEN' })
   useEffect(() => {
     if (data) setJobs(data.data || [])
   }, [data])
