@@ -11,13 +11,17 @@ import JobDetail from "../Pages/Jobs/JobDetail";
 import Login from "../Pages/Auth/Login"
 import Regiter from "../Pages/Auth/Register";
 import AccountManagement from "../Pages/Account/AccountManagement";
+import LandingPage from "../Pages/LandingPage";
+import RegisterRole from "../Pages/Auth/RegisterRole";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
     children: [
-      { path: "/", element: <Home /> },
+      { path: "/", element: <LandingPage /> },
+      { path: "/signup/role", element: <ProtectedRoute Component={RegisterRole} /> },
+      { path: "/search", element: <Home /> },
       { path: "/about", element: <About /> },
       { path: "/applicants/jobs", element: <ProtectedRoute Component={ApplicantJobs} /> },
       { path: "/recruiters/jobs", element: <ProtectedRoute Component={RecruiterJobs} /> },

@@ -1,42 +1,91 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { get } from '../../utils/request';
-import Jobs from './Jobs'
-import JobCard from '../../components/JobCard'
+import SimpleTable from '../../components/SimpleTable'
+import { JobPricingStatusDot } from '../../components/StatusDot';
+import formatDate from '../../utils';
 
 const ApplicantJobs = () => {
-  const [workingJobs, setWorkingJobs] = useState([]);
-  const [waitingJobs, setWaitingJobs] = useState([]);
-  const [deniedJobs, setDeniedJobs] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [activeTab, setActiveTab] = useState('quotes');
 
   const { isLoading, data } = get("myJob", "/applicants/jobs")
   useEffect(() => {
     if (data?.data) {
-      const working = data.data.filter((jobApply) => jobApply.status === "ACCEPTED").map((jobApply, i) => {
-        return <JobCard key={i} data={jobApply.job || {}} />
+      const listJobs = data.data.map((jobApply) => {
+        return {
+          ...jobApply,
+          posterName: `${jobApply.job?.poster?.information?.fname} ${jobApply.job?.poster?.information?.lname}`,
+        }
       })
-      setWorkingJobs(working)
-      const waiting = data.data.filter((jobApply) => jobApply.status === "WAITING_FOR_APPROVE").map((jobApply, i) => {
-        return <JobCard key={i} data={jobApply.job || {}} />
-      })
-      setWaitingJobs(waiting)
-      const denied = data.data.filter((jobApply) => jobApply.status === "DENY").map((jobApply, i) => {
-        return <JobCard key={i} data={jobApply.job || {}} />
-      })
-      setDeniedJobs(denied)
+      setJobs(listJobs)
     }
-  }, [data])
+  }, [data, isLoading])
 
-  if (isLoading) return "Loading ..."
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Tên công việc',
+        accessor: 'job.name',
+        Cell: ({ row }) => <a className="text-blue hover:underline" href={`/jobs/${row.original.job.id}`}>{row.original.job.name}</a>
+      },
+      {
+        Header: 'Mô tả',
+        accessor: 'job.description',
+        Cell: ({ row }) => {
+          return row.values["job.description"].length > 30 ? (<div className="relative group">
+            <span>
+              {`${row.values["job.description"].substring(0, 30)}...`}
+            </span>
+          </div>) : row.values["job.description"]
+        }
+      },
+      {
+        Header: 'Người thuê',
+        accessor: 'posterName',
+      },
+      {
+        Header: 'Chi phí',
+        accessor: 'pricing',
+        Cell: ({ row }) => `${row.values.pricing} VND`
+      },
+      {
+        Header: 'Trạng thái',
+        accessor: 'status',
+        Cell: ({ row }) => (
+          <JobPricingStatusDot status={row.values.status} />
+        ),
+      },
+      {
+        Header: "Ngày được nhận",
+        accessor: "applied_at",
+        Cell: ({ row }) => row.values.applied_at ? formatDate(row.values.applied_at) : null
+      },
+    ],
+    []
+  );
+
   return (
-    <div className="col-span-2 bg-white p-4 rounded">
-      <h1 className='ml-[20px] text-2xl mb-4'> Working Jobs </h1>
-      <Jobs result={workingJobs} />
-      <hr className="border-t border-gray-500 border-dashed my-4 mx-[20px]" />
-      <h1 className='ml-[20px] text-2xl mb-4'> Waiting Jobs </h1>
-      <Jobs result={waitingJobs} />
-      <hr className="border-t border-gray-500 border-dashed my-4 mx-[20px]" />
-      <h1 className='ml-[20px] text-2xl mb-4'> Denied Jobs </h1>
-      <Jobs result={deniedJobs} />
+    <div className="container mx-auto p-4">
+      <button
+        onClick={() => setActiveTab('quotes')}
+        className={`px-4 py-2 ${activeTab === 'quotes' ? 'text-blue' : 'text-black'}`}
+      >
+        Báo giá
+      </button>
+      <button
+        onClick={() => setActiveTab('ongoing')}
+        className={`px-4 py-2 ${activeTab === 'ongoing' ? 'text-blue' : 'text-black'}`}
+      >
+        Công việc đang làm
+      </button>
+      <button
+        onClick={() => setActiveTab('completed')}
+        className={`px-4 py-2 ${activeTab === 'completed' ? 'text-blue' : 'text-black'}`}
+      >
+        Công việc đã làm
+      </button>
+
+      <SimpleTable columns={columns} data={jobs} loading={isLoading} />
     </div>
   )
 }

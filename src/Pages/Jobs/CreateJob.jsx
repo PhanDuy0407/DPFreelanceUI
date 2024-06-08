@@ -34,14 +34,12 @@ const CreateJob = () => {
       price_unit: data.priceUnit,
       require_skills: selectedOption.map((skill) => skill.value),
       end_date: data.endDate,
-      estimate_time: data.estimateTime,
       type: data.type,
     }
     mutate.mutateAsync({ url: "/jobs", data: payload }).then(
       (response) => {
-        const createdJob = response.data.data
         alert("Success")
-        navigate(`/recruiters/jobs/${createdJob.id}`)
+        navigate(`/recruiters/jobs`)
       }
     ).catch((error) => {
       console.log(error)
@@ -65,12 +63,12 @@ const CreateJob = () => {
     <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4">
       {/* form  */}
       <div className="border py-4 lg:px-16">
-        <h1 className="text-4xl mb-8 text-center">Post a job!</h1>
+        <h1 className="text-4xl mb-8 text-center">Đăng tin tuyển dụng</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* first row  start*/}
           <div className="create-job-flex">
             <div className="lg:w-1/2 w-full">
-              <label className='input-label'>Job Title</label>
+              <label className='input-label'>Bạn đang tìm kiếm?</label>
               <input
                 type="text"
                 placeholder="Web Developer"
@@ -80,12 +78,12 @@ const CreateJob = () => {
             </div>
 
             <div className="lg:w-1/2 w-full">
-              <label htmlFor="category" className='input-label'>Category</label>
+              <label htmlFor="category" className='input-label'>Lĩnh vực</label>
               <select
                 {...register("category")}
                 className="auth-modal-input"
               >
-                <option value={null}>Choose category</option>
+                <option value={null}>Chọn lĩnh vực</option>
                 {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
               </select>
             </div>
@@ -94,7 +92,7 @@ const CreateJob = () => {
           {/* second row start */}
           <div className="create-job-flex">
             <div className="lg:w-1/2 w-full">
-              <label htmlFor="minPrice" className='input-label'>Minimum Price</label>
+              <label htmlFor="minPrice" className='input-label'>Ngân sách nhỏ nhất</label>
               <input
                 type="text"
                 placeholder="500000"
@@ -104,7 +102,7 @@ const CreateJob = () => {
             </div>
 
             <div className="lg:w-1/2 w-full">
-              <label htmlFor="maxPrice" className='input-label'>Maximum Price</label>
+              <label htmlFor="maxPrice" className='input-label'>Ngân sách lớn nhất</label>
               <input
                 type="text"
                 placeholder="1000000"
@@ -117,20 +115,17 @@ const CreateJob = () => {
           {/* third row start   */}
           <div className="create-job-flex">
             <div className="lg:w-1/2 w-full">
-              <label htmlFor="priceUnit" className='input-label'>Price unit</label>
+              <label htmlFor="priceUnit" className='input-label'>Đơn vị tiền tệ</label>
               <select {...register("priceUnit")} className="auth-modal-input">
-                <option value="">Choose price unit</option>
                 <option value="đ">VND</option>
-                <option value="$">USD</option>
               </select>
             </div>
 
             <div className="lg:w-1/2 w-full">
-              <label htmlFor="type" className='input-label'>Job type</label>
+              <label htmlFor="type" className='input-label'>Trả theo?</label>
               <select {...register("type")} className="auth-modal-input">
-                <option value="">Choose job type</option>
-                <option value="PER_HOUR">Per hour</option>
-                <option value="PER_PRJ">Per project</option>
+                <option value="PER_HOUR">Theo giờ</option>
+                <option value="PER_PRJ">Theo dự án</option>
               </select>
             </div>
           </div>
@@ -138,7 +133,7 @@ const CreateJob = () => {
           {/* fourth row start  */}
           <div className="create-job-flex">
             <div className="lg:w-1/2 w-full">
-              <label htmlFor="endDate" className='input-label'>Expire date</label>
+              <label htmlFor="endDate" className='input-label'>Ngày hết hạn</label>
               <input
                 type="date"
                 placeholder="EX: 2024-02-10"
@@ -146,21 +141,11 @@ const CreateJob = () => {
                 className="auth-modal-input"
               />
             </div>
-
-            <div className="lg:w-1/2 w-full">
-              <label htmlFor="estimateTime" className='input-label'>Estimate time</label>
-              <input
-                type="text"
-                placeholder="1d"
-                {...register("estimateTime")}
-                className="auth-modal-input"
-              />
-            </div>
           </div>
 
           {/* fifth row  start */}
           <div>
-            <label className="block mb-2 text-lg">Required Skills Set</label>
+            <label className="input-label">Kỹ năng cần có</label>
             <CreatableSelect
               className="pl-0 text-sm text-gray-900"
               defaultValue={selectedOption}
@@ -172,18 +157,20 @@ const CreateJob = () => {
 
           {/* seventh row start  */}
           <div className="w-full">
-            <label className="block mb-2 text-lg">Job Description</label>
+            <label className="input-label">Mô tả công việc</label>
             <textarea
               {...register("description")}
               className="auth-modal-input"
               rows={6}
-              placeholder="Welcome to our job application form Please fill out the following fields to the best of your ability Your information will help us match you with the perfect opportunity Thank you for considering joining our team."
+              placeholder="Mô tả về công việc bạn đang tìm người."
             />
           </div>
-          <input
+          <button
+            className="bg-blue py-2 px-5 text-white rounded"
             type="submit"
-            className=" block mt-12 bg-blue text-white font-semibold px-8 py-2 rounded-md cursor-pointer"
-          />
+          >
+            Lưu
+          </button>
         </form>
       </div>
     </div>

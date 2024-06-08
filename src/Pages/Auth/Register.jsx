@@ -16,7 +16,7 @@ const Register = () => {
     const mutation = post()
 
     useEffect(() => {
-        if (user && !loadingUser) navigate("/my-job")
+        if (user && !loadingUser) navigate("/account")
     }, [user, loadingUser])
 
     const onSubmit = (data) => {
@@ -32,7 +32,7 @@ const Register = () => {
                 const token = response.data.data.access_token
                 localStorage.setItem('access_token', token)
                 refetchUser()
-                navigate("/my-job")
+                navigate("/signup/role")
             }
         ).catch((error) => {
             console.log(error)
@@ -45,7 +45,7 @@ const Register = () => {
             <div className='p-12'>
                 <p className='text-sm text-[#757575] pb-1'>Welcome to DPFreeLance 👋</p>
                 <h3 className='mb-6 text-xl text-gray-900 font-bold'>
-                    Create an account
+                    Tạo tài khoản mới
                 </h3>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='mb-4'>
@@ -62,7 +62,6 @@ const Register = () => {
                                 },
                             })}
                             className='auth-modal-input'
-                            placeholder='username'
                         />
                         {errors.username && (
                             <p className='text-xs text-red-500 pt-0.5'>
@@ -73,25 +72,23 @@ const Register = () => {
 
                     <div className='mb-4'>
                         <label htmlFor='fname' className='input-label'>
-                            First name
+                            Họ
                         </label>
                         <input
                             type='text'
                             {...register('fname', {})}
                             className='auth-modal-input'
-                            placeholder='first name'
                         />
                     </div>
 
                     <div className='mb-4'>
                         <label htmlFor='lname' className='input-label'>
-                            Last name
+                            Tên
                         </label>
                         <input
                             type='text'
                             {...register('lname', {})}
                             className='auth-modal-input'
-                            placeholder='last name'
                         />
                     </div>
 
@@ -105,7 +102,6 @@ const Register = () => {
                                 required: 'Email is required',
                             })}
                             className='auth-modal-input'
-                            placeholder='email address'
                         />
                         {errors.email && (
                             <p className='text-xs text-red-500 pt-0.5'>
@@ -116,7 +112,7 @@ const Register = () => {
 
                     <div className='mb-4'>
                         <label htmlFor='password' className='input-label'>
-                            Password
+                            Mật khẩu
                         </label>
                         <input
                             type='password'
@@ -127,7 +123,6 @@ const Register = () => {
                                     message: 'Password must be at least 6 characters',
                                 },
                             })}
-                            placeholder='password'
                             className='auth-modal-input'
                         />
                         {errors.password && (
@@ -139,7 +134,7 @@ const Register = () => {
 
                     <div className='mb-8'>
                         <label htmlFor='confirm-password' className='input-label'>
-                            Confirm password
+                            Xác nhận mật khẩu
                         </label>
                         <input
                             type='password'
@@ -151,7 +146,6 @@ const Register = () => {
                                     }
                                 },
                             })}
-                            placeholder='password'
                             className='auth-modal-input'
                         />
                         {errors.confirm_password && (
@@ -165,14 +159,14 @@ const Register = () => {
                         type='submit'
                         className={`w-full rounded-lg bg-[#312ECB] px-5 py-3 text-center text-sm font-bold text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 uppercase flex items-center justify-center`}
                     >
-                        Register
+                        Đăng ký
                     </button>
                 </form>
                 <p className='text-sm w-full text-center mt-6 font-bold text-[#6B7E8B]'>
-                    If you have an account?
+                    Bạn đã có tài khoản?
                     <span className='text-[#625BF7] cursor-pointer'>
                         {' '}
-                        Sign in
+                        Đăng nhập
                     </span>
                 </p>
             </div>

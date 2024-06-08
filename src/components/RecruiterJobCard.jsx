@@ -15,7 +15,6 @@ const RecruiterJobCard = ({ data }) => {
             <h3 className="text-2xl font-semibold mb-2">{name}</h3>
 
             <div className="text-primary/70 text-base flex flex-wrap gap-2 mb-2">
-              {/* <span className="flex items-center gap-2"><FiClock /> {estimate_time}</span> */}
               <span className="flex items-center gap-2">Price: {min_price} {price_unit} - {max_price} {price_unit} </span> |
               <span className="flex items-center gap-2">Post date: {createDate}</span> |
               <span className="flex items-center gap-2">End date: {endDate}</span>

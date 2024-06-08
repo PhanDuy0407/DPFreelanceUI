@@ -75,23 +75,6 @@ const Home = () => {
     // Applying selected filter / category filtering
     if (selected) {
       // console.log((selected));
-
-      filteredJobs = filteredJobs.filter(
-        ({
-          jobLocation,
-          salaryType,
-          experienceLevel,
-          maxPrice,
-          postingDate,
-          employmentType,
-        }) =>
-          jobLocation.toLowerCase() === selected.toLowerCase() ||
-          postingDate === selected ||
-          parseInt(maxPrice) <= parseInt(selected) ||
-          salaryType.toLowerCase() === selected.toLowerCase() ||
-          experienceLevel.toLowerCase() === selected.toLowerCase() ||
-          employmentType.toLowerCase() === selected.toLowerCase()
-      );
       // console.log(filteredJobs);
     }
 
@@ -116,15 +99,15 @@ const Home = () => {
         </div>
 
         {/* job cards */}
-        <div className="col-span-2 bg-white p-4 rounded">
+        <div className="col-span-3 bg-white p-4 rounded">
           {isLoading ? ( // Loading indicator
             <p className="font-medium">Loading...</p>
           ) : result.length > 0 ? (
             <Jobs result={result} />
           ) : (
             <>
-              <h3 className="text-lg font-bold mb-2">{result.length} Jobs</h3>
-              <p>No data found</p>
+              <h3 className="text-lg font-bold mb-2">{result.length} công việc được tìm thấy</h3>
+              <p>Không có công việc</p>
             </>
           )}
           {/* pagination block here */}
@@ -159,7 +142,7 @@ const Home = () => {
 
 
         {/* right side */}
-        <div className="bg-white p-4 rounded"><Newsletter /></div>
+        {/* <div className="bg-white p-4 rounded"><Newsletter /></div> */}
 
 
       </div>

@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
 import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
+import { post } from "../../../utils/request";
+import CreatableSelect from "react-select/creatable";
+import { skillOptions } from "../../../utils/constant";
 
 const Applicant = (props) => {
     const { applicant } = props?.user || {}
-    const skills = Object.entries(applicant?.skills || { '': '' }).map(([skill, years]) => ({
-        skill,
-        years
-    }));
+    const [selectedOption, setselectedOption] = useState([]);
     const {
         control,
         register,
@@ -17,19 +18,35 @@ const Applicant = (props) => {
         defaultValues: {
             work_time: applicant?.work_time || 0,
             bio: applicant?.bio || "",
-            skills: skills,
             phone: applicant?.phone,
+            city: applicant?.city,
+            address: applicant?.address,
             cv_link: applicant?.cv_link,
         }
     })
+    const navigate = useNavigate()
 
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: 'skills',
-    });
+    useEffect(() => {
+        if (applicant) {
+            setselectedOption(skillOptions.filter(({ value }) => {
+                return applicant?.skills.includes(value)
+            }))
+        }
+    }, [applicant])
 
+    const mutate = post()
     const onSubmit = (data) => {
-        console.log(data)
+        data.skills = selectedOption.map((skill) => skill.value),
+            mutate.mutateAsync({ url: "/applicants/register", data }).then(
+                () => props.refetchUser?.()
+            ).then(() => alert("Success")).then(() => {
+                if (props.navigate) {
+                    navigate(props.navigate)
+                }
+            }).catch((error) => {
+                console.log(error)
+                alert(error?.response?.data?.detail || "Network Error")
+            })
     }
 
     return (
@@ -37,7 +54,7 @@ const Applicant = (props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='mb-4'>
                     <label htmlFor='work_time' className='input-label'>
-                        Work time
+                        Thời gian làm việc (giờ / 1 ngày)
                     </label>
                     <input
                         type='number'
@@ -58,7 +75,7 @@ const Applicant = (props) => {
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='bio' className='input-label'>
-                        Bio
+                        Giới thiệu
                     </label>
                     <textarea
                         className="auth-modal-input"
@@ -67,64 +84,38 @@ const Applicant = (props) => {
                     />
                 </div>
                 <div className='mb-4'>
-                    <div className="grid grid-cols-12 gap-2 mb-2">
-                        <label htmlFor='skills' className='input-label col-span-6'>
-                            Skills
-                        </label>
-                        <label htmlFor='yearsOfExperience' className='input-label col-span-5'>
-                            Years of Experience
-                        </label>
-                    </div>
-                    {fields.map((item, index) => (
-                        <div key={item.id} className="grid grid-cols-12 gap-2 mb-2 items-center">
-                            <input
-                                type="text"
-                                {...register(`skills.${index}.skill`, {
-                                    required: 'Skill is required',
-                                })}
-                                placeholder="Skills"
-                                className="auth-modal-input col-span-6"
-                            />
-                            <input
-                                {...register(`skills.${index}.years`, {
-                                    required: 'Years of experience is required',
-                                    min: {
-                                        value: 1,
-                                        message: "Years of experience must be greater than 0"
-                                    },
-                                })}
-                                placeholder="Years of Experience"
-                                type="number"
-                                className="auth-modal-input col-span-5"
-                            />
-                            <button type="button" onClick={() => remove(index)} className="bg-red-500 text-white p-2 rounded-full flex items-center justify-center col-span-1">
-                                <AiOutlineDelete />
-                            </button>
-                            {errors.skills?.[index] ? (
-                                <>
-                                    <p className='text-xs text-red-500 pt-0.5 col-span-6'>
-                                        {errors.skills[index]?.skill?.message}
-                                    </p>
-                                    <p className='text-xs text-red-500 pt-0.5 col-span-5'>
-                                        {errors.skills[index]?.years?.message}
-                                    </p>
-                                </>
-                            ) : null}
-                        </div>
-                    ))}
-                    <div className="flex justify-center">
-                        <button
-                            type="button"
-                            onClick={() => append({ skill: '', years: '' })}
-                            className="bg-green-500 text-white p-3 rounded-full flex items-center justify-center"
-                        >
-                            <AiOutlinePlus />
-                        </button>
-                    </div>
+                    <label htmlFor='city' className='input-label'>
+                        Thành phố
+                    </label>
+                    <input
+                        type='text'
+                        {...register('city', {})}
+                        className='auth-modal-input'
+                    />
+                </div>
+                <div className='mb-4'>
+                    <label htmlFor='address' className='input-label'>
+                        Địa chỉ
+                    </label>
+                    <input
+                        type='text'
+                        {...register('address', {})}
+                        className='auth-modal-input'
+                    />
+                </div>
+                <div className='mb-4'>
+                    <label className="input-label">Kỹ năng đã có</label>
+                    <CreatableSelect
+                        className="pl-0 text-sm text-gray-900"
+                        value={selectedOption}
+                        onChange={setselectedOption}
+                        options={skillOptions}
+                        isMulti
+                    />
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='phone' className='input-label'>
-                        Phone number
+                        Số điện thoại
                     </label>
                     <input
                         type='text'
@@ -154,7 +145,7 @@ const Applicant = (props) => {
                     type='submit'
                     className='rounded-lg bg-[#312ECB] px-4 py-2 text-white'
                 >
-                    Save
+                    Lưu
                 </button>
             </form>
         </div>

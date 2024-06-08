@@ -3,7 +3,7 @@ import { useAuth } from '../utils/customHook/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ Component, ...rest }) => {
-    const { user, loadingUser } = useAuth();
+    const { user, loadingUser, refetchUser } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -12,11 +12,11 @@ const ProtectedRoute = ({ Component, ...rest }) => {
         }
     }, [user, loadingUser, navigate]);
 
-    if (loadingUser) {
-        return <div>Loading...</div>;
-    }
+    // if (loadingUser) {
+    //     return <div>Loading...</div>;
+    // }
 
-    return <Component {...rest} user={user} />;
+    return <Component {...rest} user={user} refetchUser={refetchUser} />;
 };
 
 export default ProtectedRoute;

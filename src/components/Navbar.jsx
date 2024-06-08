@@ -45,24 +45,24 @@ const Navbar = () => {
   }
 
   const navItems = [
-    { path: "/", title: "Start a search" },
+    { path: "/search", title: "Tìm kiếm việc làm" },
     {
-      title: "Applicant",
+      title: "Freelancer",
       children: [
-        { path: "/applicants/jobs", title: "Manage jobs" },
+        { path: "/applicants/jobs", title: "Quản lý công việc" },
       ]
     },
     {
-      title: "Recruiter",
+      title: "Nhà tuyển dụng",
       children: [
-        { path: "/recruiters/jobs", title: "Manage jobs" },
-        { path: "/recruiters/post-job", title: "Post job" },
+        { path: "/recruiters/jobs", title: "Quản lý tin đăng tuyển" },
+        { path: "/recruiters/post-job", title: "Đăng tin tuyển dụng" },
       ]
     },
   ];
 
   return (
-    <header className="max-w-full container border-b mb-8">
+    <header className="max-w-full container border-b">
       <nav className="grid grid-cols-12 items-center py-6 mx-auto xl:px-24 px-4 max-w-screen-2xl">
         <a href="/" className="flex items-center gap-2 text-2xl text-black col-span-4">
           <svg
@@ -84,7 +84,7 @@ const Navbar = () => {
           <span>DPFreelance</span>
         </a>
         {/* nav items  for larger devices */}
-        <ul className="hidden md:flex gap-12 col-span-6">
+        <ul className="hidden md:flex gap-12 col-span-5">
           {navItems.map((navItem, index) => {
             const isActive = navItem.children?.some(child => location.pathname === child.path)
             return (
@@ -123,13 +123,13 @@ const Navbar = () => {
         </ul>
         {/* sign up signout btn */}
         {isGuest && (
-          <div className="text-base text-primary font-medium space-x-5 hidden lg:block col-span-2">
-            <Link to="/login" className="py-2 px-5 border rounded"> Log in</Link>
-            <Link to="/signup" className="bg-blue py-2 px-5 text-white rounded">Sign up</Link>
+          <div className="text-base text-primary font-medium space-x-2 hidden lg:block col-span-3">
+            <Link to="/login" className="py-2 px-5 border rounded">Đăng nhập</Link>
+            <Link to="/signup" className="bg-blue py-2 px-5 text-white rounded">Đăng ký</Link>
           </div>
         )}
         {!isGuest && (
-          <div ref={dropdownRef} className='relative col-span-2 ml-auto'>
+          <div ref={dropdownRef} className='relative col-span-3 ml-auto'>
             <button onClick={toggleDropdown} className="flex items-center focus:outline-none">
               <img
                 src={user?.avatar}
@@ -143,13 +143,13 @@ const Navbar = () => {
                   href="/account"
                   className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                 >
-                  Account
+                  Tài khoản
                 </a>
                 <button
                   onClick={() => logout()}
                   className="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100"
                 >
-                  Logout
+                  Đăng xuất
                 </button>
               </div>
             )}

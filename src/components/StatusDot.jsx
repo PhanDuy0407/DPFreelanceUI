@@ -17,7 +17,7 @@ export const JobStatusDot = ({ status }) => {
   };
 
   return (
-    <div className="flex items-center space-x-2 mt-2">
+    <div className="flex items-center space-x-2">
       <span className={`w-3 h-3 rounded-full ${getStatusColor(status)}`}></span>
       <span className="text-md font-medium">{JobStatus[status]?.label}</span>
     </div>

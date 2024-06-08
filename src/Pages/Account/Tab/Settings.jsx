@@ -17,17 +17,17 @@ const Settings = (props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='mb-4'>
                     <label htmlFor='currentPassword' className='input-label'>
-                        Current Password
+                        Mật khẩu hiện tại
                     </label>
                     <input
                         type='password'
                         className='auth-modal-input'
-                        placeholder='Current password'
+                    // placeholder='Current password'
                     />
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='new_password' className='input-label'>
-                        New password
+                        Mật khẩu mới
                     </label>
                     <input
                         type='password'
@@ -38,7 +38,7 @@ const Settings = (props) => {
                                 message: 'Password must be at least 6 characters',
                             },
                         })}
-                        placeholder='New password'
+                        // placeholder='New password'
                         className='auth-modal-input'
                     />
                     {errors.password && (
@@ -50,7 +50,7 @@ const Settings = (props) => {
 
                 <div className='mb-4'>
                     <label htmlFor='confirm-password' className='input-label'>
-                        Confirm password
+                        Xác nhận mật khẩu mới
                     </label>
                     <input
                         type='password'
@@ -62,7 +62,7 @@ const Settings = (props) => {
                                 }
                             },
                         })}
-                        placeholder='Confirm password'
+                        // placeholder='Confirm password'
                         className='auth-modal-input'
                     />
                     {errors.confirm_password && (
@@ -75,7 +75,7 @@ const Settings = (props) => {
                     type='submit'
                     className='rounded-lg bg-[#312ECB] px-4 py-2 text-white'
                 >
-                    Save
+                    Lưu
                 </button>
             </form>
         </div>

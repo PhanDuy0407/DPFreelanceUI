@@ -1,5 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { post } from "../../../utils/request";
 
 const Recruiter = (props) => {
     const { recruiter } = props?.user || {}
@@ -9,38 +11,53 @@ const Recruiter = (props) => {
         formState: { errors },
     } = useForm({
         defaultValues: {
-            recruiter_email: recruiter?.recruiter_email || "",
+            city: recruiter?.city || "",
+            address: recruiter?.address || "",
             phone: recruiter?.phone,
         }
     })
+    const navigate = useNavigate()
 
+    const mutate = post()
     const onSubmit = (data) => {
-        console.log(data)
+        mutate.mutateAsync({ url: "/recruiters/register", data }).then(
+            () => props.refetchUser?.()
+        ).then(() => alert("Success")).then(() => {
+            if (props.navigate) {
+                navigate(props.navigate)
+            }
+        }).catch((error) => {
+            console.log(error)
+            alert(error?.response?.data?.detail || "Network Error")
+        })
     }
 
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='mb-4'>
-                    <label htmlFor='email' className='input-label'>
-                        Recruiter Email
+                    <label htmlFor='city' className='input-label'>
+                        Thành phố
                     </label>
                     <input
                         type='text'
-                        {...register('recruiter_email', {
-                            required: 'Recruiter email is required',
-                        })}
+                        {...register('city', {})}
                         className='auth-modal-input'
                     />
-                    {errors.recruiter_email && (
-                        <p className='text-xs text-red-500 pt-0.5'>
-                            {errors.recruiter_email.message}
-                        </p>
-                    )}
+                </div>
+                <div className='mb-4'>
+                    <label htmlFor='address' className='input-label'>
+                        Địa chỉ
+                    </label>
+                    <input
+                        type='text'
+                        {...register('address', {})}
+                        className='auth-modal-input'
+                    />
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='phone' className='input-label'>
-                        Phone number
+                        Số điện thoại
                     </label>
                     <input
                         type='text'
@@ -55,9 +72,9 @@ const Recruiter = (props) => {
                         </p>
                     )}
                 </div>
-                <div className='mb-4'>
+                {!props.navigate && <div className='mb-4'>
                     <label htmlFor='freePostAttempts' className='input-label'>
-                        Free Post Attempts
+                        Số lượt đăng tin miễn phí
                     </label>
                     <input
                         type='text'
@@ -65,10 +82,10 @@ const Recruiter = (props) => {
                         disabled
                         className='auth-modal-input'
                     />
-                </div>
-                <div className='mb-4'>
+                </div>}
+                {!props.navigate && <div className='mb-4'>
                     <label htmlFor='remainingPostAttempts' className='input-label'>
-                        Remaining Post Attempts
+                        Số lượt đăng tin trả phí
                     </label>
                     <input
                         type='text'
@@ -76,12 +93,12 @@ const Recruiter = (props) => {
                         disabled
                         className='auth-modal-input'
                     />
-                </div>
+                </div>}
                 <button
                     type='submit'
                     className='rounded-lg bg-[#312ECB] px-4 py-2 text-white'
                 >
-                    Save
+                    Lưu
                 </button>
             </form>
         </div>

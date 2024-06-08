@@ -17,7 +17,7 @@ function PricingList({ data, refecthChange, jobId, isLoadingJobPricing }) {
     const changeStatus = (status, applicantId) => {
         const payload = { status }
         console.log(payload)
-        mutate.mutateAsync({ url: `recruiters/jobs/${jobId}/pricing/${applicantId}/status`, data: payload }).then(alert("Success")).then(() => refecthChange()).catch((error) => {
+        mutate.mutateAsync({ url: `recruiters/jobs/${jobId}/pricing/${applicantId}/status`, data: payload }).then(() => alert("Success")).then(() => refecthChange()).catch((error) => {
             console.log(error)
             alert(error?.response?.data?.detail || "Network Error")
         })
@@ -34,11 +34,11 @@ function PricingList({ data, refecthChange, jobId, isLoadingJobPricing }) {
                 const applicantSkills = skillOptions.filter((option) => Object.keys(item.applicant?.skills || {}).includes(option.value))
                 return (
                     <div key={index} className='rounded-lg bg-gray-200 shadow mx-auto p-8 mt-8 relative'>
-                        <h1 className='text-lg absolute right-8 top-8'>Estimate: <strong>{item.pricing} đ</strong></h1>
+                        <h1 className='text-lg absolute right-8 top-8'>Đề xuất chi phí: <strong>{item.pricing} đ</strong></h1>
                         <div className="flex items-start space-x-4">
                             <img src={item.applicant?.information?.avatar} alt={posterName} className="w-20 h-20 rounded-full" />
                             <div className="flex flex-col justify-between h-20">
-                                <span className="text-lg ml-4"> Post by: {posterName}</span>
+                                <span className="text-lg ml-4"> Người gửi: {posterName}</span>
                                 <div className="space-x-2 ml-4 mt-auto">
                                     {applicantSkills.map((skill, index) => (
                                         <Badge key={index}>
@@ -52,7 +52,7 @@ function PricingList({ data, refecthChange, jobId, isLoadingJobPricing }) {
                             <JobPricingStatusDot status={item.status} />
                         </div>
                         <div className="flex items-center space-x-2 mt-4 text-blue">
-                            <span className="hover:underline cursor-pointer" onClick={() => toggleDescription(index)}>View description </span>
+                            <span className="hover:underline cursor-pointer" onClick={() => toggleDescription(index)}>Xem chi tiết </span>
                             {open === index ? <FaArrowUp /> : <FaArrowDown />}
                         </div>
                         <CSSTransition
@@ -63,7 +63,7 @@ function PricingList({ data, refecthChange, jobId, isLoadingJobPricing }) {
                         >
                             <div className='mt-4'>
                                 <div className="mb-4">
-                                    <label className="input-label">Experience Description</label>
+                                    <label className="input-label">Bạn có những kinh nghiệm và kỹ năng nào phù hợp với dự án này?</label>
                                     <textarea
                                         className="auth-modal-input"
                                         rows={6}
@@ -72,7 +72,7 @@ function PricingList({ data, refecthChange, jobId, isLoadingJobPricing }) {
                                     />
                                 </div>
                                 <div className="mb-8">
-                                    <label className="input-label">Expected plan</label>
+                                    <label className="input-label">Bạn dự định thực hiện dự án này như thế nào?</label>
                                     <textarea
                                         className="auth-modal-input"
                                         rows={6}
@@ -87,13 +87,13 @@ function PricingList({ data, refecthChange, jobId, isLoadingJobPricing }) {
                                 className="bg-white py-2 px-5 border rounded"
                                 onClick={() => changeStatus(JobPricingStatus.DENY.value, item.applicant?.id)}
                             >
-                                Deny
+                                Từ chối
                             </button>
                             <button
                                 className="bg-blue py-2 px-5 text-white rounded"
                                 onClick={() => changeStatus(JobPricingStatus.ACCEPTED.value, item.applicant?.id)}
                             >
-                                Accept
+                                Chấp nhận
                             </button>
                         </div>
                     </div>

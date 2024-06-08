@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useForm } from 'react-hook-form'
 
 const Information = (props) => {
@@ -7,6 +7,7 @@ const Information = (props) => {
         register,
         handleSubmit,
         formState: { errors },
+        reset
     } = useForm({
         defaultValues: {
             email: user?.email || "",
@@ -14,6 +15,16 @@ const Information = (props) => {
             lname: user?.lname || "",
         }
     })
+
+    useEffect(() => {
+        reset(
+            {
+                email: user?.email || "",
+                fname: user?.fname || "",
+                lname: user?.lname || "",
+            }
+        )
+    }, [user])
 
     const onSubmit = (data) => {
         console.log(data)
@@ -78,7 +89,7 @@ const Information = (props) => {
                     type='submit'
                     className='rounded-lg bg-[#312ECB] px-4 py-2 text-white'
                 >
-                    Save
+                    Lưu
                 </button>
             </form>
         </div>

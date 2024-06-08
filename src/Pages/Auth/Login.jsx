@@ -15,7 +15,7 @@ const Login = () => {
     const mutation = post()
 
     useEffect(() => {
-        if (user && !loadingUser) navigate("/my-job")
+        if (user && !loadingUser) navigate("/applicants/jobs")
     }, [user, loadingUser])
 
     const onSubmit = (data) => {
@@ -24,7 +24,7 @@ const Login = () => {
                 const token = response.data.data.access_token
                 localStorage.setItem('access_token', token)
                 refetchUser()
-                navigate("/")
+                navigate("/search")
             }
         ).catch((error) => {
             console.log(error)
@@ -37,7 +37,7 @@ const Login = () => {
             <div className='p-12'>
                 <p className='text-sm text-[#757575] pb-1'>Welcome back! 👋</p>
                 <h3 className='mb-6 text-xl text-gray-900 font-bold'>
-                    Sign in to your account
+                    Đăng nhập tài khoản
                 </h3>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='mb-4'>
@@ -61,7 +61,7 @@ const Login = () => {
 
                     <div className='mb-8'>
                         <label htmlFor='password' className='input-label'>
-                            Password
+                            Mật khẩu
                         </label>
                         <input
                             type='password'
@@ -86,14 +86,14 @@ const Login = () => {
                         type='submit'
                         className={`w-full rounded-lg bg-[#312ECB] px-5 py-3 text-center text-sm font-bold text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 uppercase flex items-center justify-center`}
                     >
-                        Login
+                        Đăng nhập
                     </button>
                 </form>
                 <p className='text-sm w-full text-center mt-6 font-bold text-[#6B7E8B]'>
-                    If you don't have an account?
+                    Bạn không có tài khoản?
                     <span className='text-[#625BF7] cursor-pointer'>
                         {' '}
-                        Sign up
+                        Click vào đây
                     </span>
                 </p>
             </div>

@@ -6,11 +6,12 @@ import { useAuth } from '../../utils/customHook/useAuth';
 import formatDate from '../../utils';
 import { post } from '../../utils/request';
 import { JobType, JobStatus } from '../../utils/constant';
+import { JobStatusDot } from '../../components/StatusDot';
 
 const JobDetail = () => {
     const { id } = useParams();
     const { user, loadingUser } = useAuth()
-    const isApplicant = !loadingUser && user.applicant
+    const isApplicant = !loadingUser && user?.applicant
     const {
         register,
         handleSubmit,
@@ -66,35 +67,33 @@ const JobDetail = () => {
                                 <br />
                             </span>
                         ))}
-                        {job.jd_file && (
+                        {/* {job.jd_file && (
                             <div className="mb-4">
                                 <a href={job.jd_file} className="text-blue hover:underline">Download Job Description</a>
                             </div>
-                        )}
+                        )} */}
                     </div>
 
                     {/* Other Job Info and Poster Info */}
-                    <div className="md:w-2/5 round-lg shadow-lg pt-4">
+                    <div className="md:w-2/5 round-lg shadow-lg pt-4 h-fit">
                         <div className="px-4 mb-4">
-                            <h2 className="text-xl font-semibold mb-2">Job Details</h2>
+                            <h2 className="text-xl font-semibold mb-2">Thông tin công việc</h2>
                             <div className="grid grid-cols-2 gap-4">
-                                <p className="text-gray-600">Price:</p>
+                                <p className="text-gray-600">Ngân sách:</p>
                                 <p>{job.min_price} {job.price_unit} - {job.max_price} {job.price_unit}</p>
-                                <p className="text-gray-600">Type:</p>
+                                <p className="text-gray-600">Loại:</p>
                                 <p>{JobType[job.type]?.label}</p>
-                                <p className="text-gray-600">Status:</p>
-                                <p>{JobStatus[job.status]?.label}</p>
-                                <p className="text-gray-600">Estimated Time:</p>
-                                <p>{job.estimate_time}</p>
-                                <p className="text-gray-600">Created Date:</p>
+                                <p className="text-gray-600">Trạng thái:</p>
+                                <JobStatusDot status={job.status} />
+                                <p className="text-gray-600">Ngày tạo:</p>
                                 <p>{formatDate(job.created_at)}</p>
-                                <p className="text-gray-600">End Date:</p>
+                                <p className="text-gray-600">Ngày hết hạn:</p>
                                 <p>{formatDate(job.end_date)}</p>
                             </div>
                         </div>
 
                         <div className="p-4 w-2/3">
-                            <h2 className="text-xl font-semibold mb-2">Poster Info</h2>
+                            <h2 className="text-xl font-semibold mb-2">Thông tin người đăng</h2>
                             <div className='grid grid-cols-2 mb-4'>
                                 <img
                                     src={job.poster?.information?.avatar}
@@ -106,7 +105,7 @@ const JobDetail = () => {
                             <div className="grid grid-cols-2 gap-4">
                                 <p className="text-gray-600">Email:</p>
                                 <p>{job.poster?.recruiter_email}</p>
-                                <p className="text-gray-600">Phone:</p>
+                                <p className="text-gray-600">Số điện thoại:</p>
                                 <p>{job.poster?.phone}</p>
                             </div>
                         </div>
@@ -114,12 +113,12 @@ const JobDetail = () => {
                 </div>
                 {isApplicant && (<div className='rounded-lg bg-gray-200 shadow mx-auto p-8 mt-8'>
                     <h3 className='mb-6 text-2xl font-bold'>
-                        Pricing
+                        Báo giá
                     </h3>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className='mb-4 w-1/3'>
                             <label htmlFor='estimatePrice' className='input-label'>
-                                Estimate price
+                                Đề xuất chi phí
                             </label>
                             <input
                                 type='text'
@@ -136,7 +135,7 @@ const JobDetail = () => {
                             )}
                         </div>
                         <div className="mb-4">
-                            <label className="block mb-2 text-lg">Experience Description</label>
+                            <label className="block mb-2 text-lg">Bạn có những kinh nghiệm và kỹ năng nào phù hợp với dự án này?</label>
                             <textarea
                                 {...register("exDescription")}
                                 className="auth-modal-input"
@@ -145,7 +144,7 @@ const JobDetail = () => {
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block mb-2 text-lg">Expected plan</label>
+                            <label className="block mb-2 text-lg">Bạn dự định thực hiện dự án này như thế nào?</label>
                             <textarea
                                 {...register("plan")}
                                 className="auth-modal-input"
@@ -157,7 +156,7 @@ const JobDetail = () => {
                             type='submit'
                             className='rounded-lg bg-[#312ECB] px-4 py-2 text-white'
                         >
-                            Save
+                            Lưu
                         </button>
                     </form>
                 </div>)}

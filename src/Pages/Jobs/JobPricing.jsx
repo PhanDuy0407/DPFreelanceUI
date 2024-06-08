@@ -45,7 +45,6 @@ const JobPricing = () => {
                 priceUnit: job.price_unit,
                 type: job.type,
                 endDate: job.end_date?.split("T")?.[0],
-                estimateTime: job.estimate_time,
             }
         )
     }, [job, reset, categories])
@@ -84,12 +83,12 @@ const JobPricing = () => {
                     <div className='absolute right-16'>
                         <JobStatusDot status={job.status} />
                     </div>
-                    <h1 className="text-4xl mb-8">Job detail</h1>
+                    <h1 className="text-4xl mb-8">Thông tin công việc</h1>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                         {/* first row  start*/}
                         <div className="create-job-flex">
                             <div className="lg:w-1/2 w-full">
-                                <label className='input-label'>Job Title</label>
+                                <label className='input-label'>Bạn đang tìm kiếm?</label>
                                 <input
                                     type="text"
                                     placeholder="Web Developer"
@@ -100,7 +99,7 @@ const JobPricing = () => {
                             </div>
 
                             <div className="lg:w-1/2 w-full">
-                                <label htmlFor="category" className='input-label'>Category</label>
+                                <label htmlFor="category" className='input-label'>Lĩnh vực</label>
                                 <select
                                     {...register("category")}
                                     className={`auth-modal-input ${disableUpdate ? 'bg-[#EFEFEF4D]' : null}`}
@@ -115,7 +114,7 @@ const JobPricing = () => {
                         {/* second row start */}
                         <div className="create-job-flex">
                             <div className="lg:w-1/2 w-full">
-                                <label htmlFor="minPrice" className='input-label'>Minimum Price</label>
+                                <label htmlFor="minPrice" className='input-label'>Ngân sách nhỏ nhất</label>
                                 <input
                                     type="text"
                                     placeholder="500000"
@@ -126,7 +125,7 @@ const JobPricing = () => {
                             </div>
 
                             <div className="lg:w-1/2 w-full">
-                                <label htmlFor="maxPrice" className='input-label'>Maximum Price</label>
+                                <label htmlFor="maxPrice" className='input-label'>Ngân sách lớn nhất</label>
                                 <input
                                     type="text"
                                     placeholder="1000000"
@@ -140,18 +139,16 @@ const JobPricing = () => {
                         {/* third row start   */}
                         <div className="create-job-flex">
                             <div className="lg:w-1/2 w-full">
-                                <label htmlFor="priceUnit" className='input-label'>Price unit</label>
+                                <label htmlFor="priceUnit" className='input-label'>Đơn vị tiền tệ</label>
                                 <select {...register("priceUnit")} className={`auth-modal-input ${disableUpdate ? 'bg-[#EFEFEF4D]' : null}`} disabled={disableUpdate}>
-                                    <option value="">Choose price unit</option>
                                     <option value="đ">VND</option>
                                     <option value="$">USD</option>
                                 </select>
                             </div>
 
                             <div className="lg:w-1/2 w-full">
-                                <label htmlFor="type" className='input-label' disabled={disableUpdate}>Job type</label>
+                                <label htmlFor="type" className='input-label' disabled={disableUpdate}>Trả theo?</label>
                                 <select {...register("type")} className={`auth-modal-input ${disableUpdate ? 'bg-[#EFEFEF4D]' : null}`} disabled={disableUpdate}>
-                                    <option value="">Choose job type</option>
                                     <option value="PER_HOUR">Per hour</option>
                                     <option value="PER_PRJ">Per project</option>
                                 </select>
@@ -161,7 +158,7 @@ const JobPricing = () => {
                         {/* fourth row start  */}
                         <div className="create-job-flex">
                             <div className="lg:w-1/2 w-full">
-                                <label htmlFor="endDate" className='input-label'>Expire date</label>
+                                <label htmlFor="endDate" className='input-label'>Ngày hết hạn</label>
                                 <input
                                     type="date"
                                     placeholder="EX: 2024-02-10"
@@ -170,22 +167,11 @@ const JobPricing = () => {
                                     disabled={disableUpdate}
                                 />
                             </div>
-
-                            <div className="lg:w-1/2 w-full">
-                                <label htmlFor="estimateTime" className='input-label'>Estimate time</label>
-                                <input
-                                    type="text"
-                                    placeholder="1d"
-                                    {...register("estimateTime")}
-                                    className="auth-modal-input"
-                                    disabled={disableUpdate}
-                                />
-                            </div>
                         </div>
 
                         {/* fifth row  start */}
                         <div>
-                            <label className="input-label">Required Skills Set</label>
+                            <label className="input-label">Kỹ năng cần có</label>
                             <CreatableSelect
                                 className="pl-0 text-sm text-gray-900"
                                 value={selectedOption}
@@ -198,7 +184,7 @@ const JobPricing = () => {
 
                         {/* seventh row start  */}
                         <div className="w-full">
-                            <label className="input-label">Job Description</label>
+                            <label className="input-label">Mô tả công việc</label>
                             <textarea
                                 {...register("description")}
                                 className="auth-modal-input"
@@ -216,7 +202,7 @@ const JobPricing = () => {
                 </div>
             </div>
             <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4 my-8">
-                <h1 className="text-4xl mb-8 text-center">Pricing</h1>
+                <h1 className="text-4xl mb-8 text-center">Báo giá</h1>
                 <PricingList data={jobsPricing} isLoadingJobPricing={isLoadingJobPricing} jobId={id} refecthChange={refecthChange} />
             </div>
         </>

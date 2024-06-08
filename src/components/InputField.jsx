@@ -1,11 +1,11 @@
 import React from 'react';
 
-const InputField = ({ handleChange, value, title, name }) => {
+const InputField = ({ handleChange, value, title, name, type = "radio" }) => {
   return (
     <label className="sidebar-label-container">
       <input
         onChange={handleChange}
-        type="radio"
+        type={type}
         value={value} // Set the value prop as the input value
         name={name}
       />
