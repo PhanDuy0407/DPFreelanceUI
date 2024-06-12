@@ -2,7 +2,6 @@ import React from 'react';
 import { useTable } from 'react-table';
 
 const SimpleTable = ({ columns, data, loading = false }) => {
-  console.log(data)
   const {
     getTableProps,
     getTableBodyProps,

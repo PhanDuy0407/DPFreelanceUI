@@ -16,3 +16,7 @@ export const post = () => {
 export const put = () => {
     return useMutation(({url, data}) => rootApi.put(url, data))
 }
+
+export const deleteMutate = () => {
+    return useMutation(({url}) => rootApi.delete(url))
+}

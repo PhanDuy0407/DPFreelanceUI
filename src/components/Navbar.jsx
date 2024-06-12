@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../utils/customHook/useAuth';
+import NotificationBell from './NotificationBell';
 
 
-const Navbar = () => {
+const Navbar = ({ isAdmin }) => {
   const { user, loadingUser, refetchUser } = useAuth()
   const isGuest = !user && !loadingUser
   const isAuthen = user && !loadingUser
+  const isAuthenAdmin = isAuthen && user.is_admin
   const navigate = useNavigate()
   const location = useLocation()
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -41,7 +43,7 @@ const Navbar = () => {
     localStorage.removeItem('access_token')
     setDropdownOpen(false);
     refetchUser()
-    navigate('/login')
+    isAdmin ? navigate('/admin/login') : navigate('/login')
   }
 
   const navItems = [
@@ -63,7 +65,7 @@ const Navbar = () => {
 
   return (
     <header className="max-w-full container border-b">
-      <nav className="grid grid-cols-12 items-center py-6 mx-auto xl:px-24 px-4 max-w-screen-2xl">
+      <nav className={`grid grid-cols-12 items-center py-6 mx-auto ${isAdmin ? '' : 'xl:px-24 max-w-screen-2xl'} px-4`}>
         <a href="/" className="flex items-center gap-2 text-2xl text-black col-span-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +90,7 @@ const Navbar = () => {
           {navItems.map((navItem, index) => {
             const isActive = navItem.children?.some(child => location.pathname === child.path)
             return (
-              <li key={navItem.title} className="relative text-base text-primary">
+              <li key={navItem.title} className={`relative text-base text-primary ${isAdmin ? "hidden" : ''}`}>
                 {navItem.path ? (
                   <NavLink
                     to={navItem.path}
@@ -122,37 +124,42 @@ const Navbar = () => {
           })}
         </ul>
         {/* sign up signout btn */}
-        {isGuest && (
+        {isGuest && !isAdmin && (
           <div className="text-base text-primary font-medium space-x-2 hidden lg:block col-span-3">
             <Link to="/login" className="py-2 px-5 border rounded">Đăng nhập</Link>
             <Link to="/signup" className="bg-blue py-2 px-5 text-white rounded">Đăng ký</Link>
           </div>
         )}
         {!isGuest && (
-          <div ref={dropdownRef} className='relative col-span-3 ml-auto'>
-            <button onClick={toggleDropdown} className="flex items-center focus:outline-none">
-              <img
-                src={user?.avatar}
-                alt="avatar"
-                className="rounded-full w-10 h-10"
-              />
-            </button>
-            {dropdownOpen && isAuthen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
-                <a
-                  href="/account"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                >
-                  Tài khoản
-                </a>
-                <button
-                  onClick={() => logout()}
-                  className="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                >
-                  Đăng xuất
-                </button>
-              </div>
-            )}
+          <div className='col-span-3 ml-auto grid grid-cols-2 gap-2 relative items-center'>
+            {!isAdmin && (<div className='relative'>
+              <NotificationBell />
+            </div>)}
+            <div ref={dropdownRef} className='ml-auto grid relative items-center'>
+              {(!isAdmin || isAdmin && isAuthenAdmin) && (<button onClick={toggleDropdown} className="focus:outline-none">
+                <img
+                  src={user?.avatar}
+                  alt="avatar"
+                  className="rounded-full w-10 h-10"
+                />
+              </button>)}
+              {dropdownOpen && isAuthen && (
+                <div className="absolute top-10 right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
+                  <a
+                    href="/account"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  >
+                    Tài khoản
+                  </a>
+                  <button
+                    onClick={() => logout()}
+                    className="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </nav>

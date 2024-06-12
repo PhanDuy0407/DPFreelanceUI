@@ -17,8 +17,8 @@ const JobPricing = () => {
     const [jobsPricing, setJobsPricing] = useState([]);
     const navigate = useNavigate()
     const { isLoading, data } = get("categories", "category")
-    const { isLoading: isLoadingJob, data: jobResponse, refetch: refetchJob } = get("jobsPosted", `/jobs/${id}`)
-    const { isLoading: isLoadingJobPricing, data: jobPricingResponse, refetch: refetchPricing } = get("pricing", `recruiters/jobs/${id}/pricing`)
+    const { isLoading: isLoadingJob, data: jobResponse, refetch: refetchJob } = get(["jobsPosted", id], `/jobs/${id}`)
+    const { isLoading: isLoadingJobPricing, data: jobPricingResponse, refetch: refetchPricing } = get(["pricing", id], `recruiters/jobs/${id}/pricing`)
 
     const disableUpdate = job?.status ? ![JobStatus.OPEN.value, JobStatus.REOPEN.value].includes(job.status) : false
 

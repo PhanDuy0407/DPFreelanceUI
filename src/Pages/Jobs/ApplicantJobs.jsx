@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { get } from '../../utils/request';
 import SimpleTable from '../../components/SimpleTable'
 import { JobPricingStatusDot } from '../../components/StatusDot';
-import formatDate from '../../utils';
+import { formatDate } from '../../utils';
 
 const ApplicantJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -54,6 +54,11 @@ const ApplicantJobs = () => {
         Cell: ({ row }) => (
           <JobPricingStatusDot status={row.values.status} />
         ),
+      },
+      {
+        Header: "Ngày ứng tuyển",
+        accessor: "created_at",
+        Cell: ({ row }) => row.values.created_at ? formatDate(row.values.created_at) : null
       },
       {
         Header: "Ngày được nhận",

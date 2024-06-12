@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import formatDate from "../utils";
+import { formatDate } from "../utils";
 import { JobType } from "../utils/constant";
 
 const JobCard = ({ data }) => {

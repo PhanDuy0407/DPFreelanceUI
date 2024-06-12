@@ -5,15 +5,17 @@ import Jobs from './Jobs/Jobs';
 import Sidebar from '../Sidebar/Sidebar';
 import Newsletter from '../components/Newsletter';
 import { get } from '../utils/request';
+import { removeKeys } from '../utils';
 
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [jobs, setJobs] = useState([]);
+  const [params, setParams] = useState({ order_by: 'created_at:desc', status__eq: 'OPEN' })
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const { isLoading, data } = get("listJob", "/jobs", { order_by: 'created_at:desc', status__eq: 'OPEN' })
+  const { isLoading, data } = get(["listJob", params], "/jobs", params)
   useEffect(() => {
     if (data) setJobs(data.data || [])
   }, [data])
@@ -32,10 +34,20 @@ const Home = () => {
   // console.log(filteredItems);
 
   // ----------- Radio Filtering -----------
-  const handleChange = (event) => {
-    setSelectedCategory(event.target.value);
-    // console.log(event.target.value);
+  const handleChange = ({ key, operation, value }) => {
+    const newParams = { ...params }
+    const queryKey = `${key}${operation}`
+    if (value) {
+      newParams[queryKey] = value
+    }
+    else {
+      if (newParams.hasOwnProperty(queryKey)) {
+        delete newParams[queryKey];
+      }
+    }
+    setParams(newParams)
   };
+  console.log(params)
 
   // // ------------ Button Filtering -----------
   const handleClick = (event) => {

@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { get } from '../../utils/request';
 import SimpleTable from '../../components/SimpleTable'
 import { JobStatusDot } from '../../components/StatusDot';
-import formatDate from '../../utils';
+import { formatDate } from '../../utils';
 import { JobType } from '../../utils/constant';
 
-const ApplicantJobs = () => {
+const RecruiterJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [activeTab, setActiveTab] = useState('quotes');
 
@@ -108,4 +106,4 @@ const ApplicantJobs = () => {
   )
 }
 
-export default ApplicantJobs
+export default RecruiterJobs

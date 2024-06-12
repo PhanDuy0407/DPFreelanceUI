@@ -41,7 +41,7 @@ const Register = () => {
     }
 
     return (
-        <div className='rounded-lg bg-white shadow w-1/2 mx-auto'>
+        <div className='rounded-lg bg-white shadow w-1/2 mx-auto mt-10'>
             <div className='p-12'>
                 <p className='text-sm text-[#757575] pb-1'>Welcome to DPFreeLance 👋</p>
                 <h3 className='mb-6 text-xl text-gray-900 font-bold'>

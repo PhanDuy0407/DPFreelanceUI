@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { get } from '../../utils/request';
 import { useAuth } from '../../utils/customHook/useAuth';
-import formatDate from '../../utils';
+import { formatDate } from '../../utils';
 import { post } from '../../utils/request';
 import { JobType, JobStatus } from '../../utils/constant';
 import { JobStatusDot } from '../../components/StatusDot';
@@ -20,7 +20,7 @@ const JobDetail = () => {
     const navigate = useNavigate()
 
     const [job, setJob] = useState({})
-    const { isLoading, data } = get("jobDetail", `/jobs/${id}`)
+    const { isLoading, data } = get(["jobDetail", id], `/jobs/${id}`)
     useEffect(() => {
         if (!isLoading && data) {
             setJob(data.data)

@@ -13,6 +13,11 @@ import Regiter from "../Pages/Auth/Register";
 import AccountManagement from "../Pages/Account/AccountManagement";
 import LandingPage from "../Pages/LandingPage";
 import RegisterRole from "../Pages/Auth/RegisterRole";
+import Jobs from "../Pages/Admin/Jobs";
+import Accounts from "../Pages/Admin/Accounts";
+import Analytics from "../Pages/Admin/Analytics";
+import AdminLogin from "../Pages/Auth/AdminLogin";
+import { Navigate } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +25,11 @@ const router = createBrowserRouter([
     element: <App></App>,
     children: [
       { path: "/", element: <LandingPage /> },
+      { path: "/admin", element: <Navigate to={"/admin/analytics"} replace /> },
+      { path: "/admin/login", element: <ProtectedRoute Component={AdminLogin} isAdmin /> },
+      { path: "/admin/analytics", element: <ProtectedRoute Component={Analytics} isAdmin /> },
+      { path: "/admin/jobs", element: <ProtectedRoute Component={Jobs} isAdmin /> },
+      { path: "/admin/accounts", element: <ProtectedRoute Component={Accounts} isAdmin /> },
       { path: "/signup/role", element: <ProtectedRoute Component={RegisterRole} /> },
       { path: "/search", element: <Home /> },
       { path: "/about", element: <About /> },

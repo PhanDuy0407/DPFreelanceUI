@@ -4,12 +4,14 @@ import { JobStatus, JobPricingStatus } from '../utils/constant';
 export const JobStatusDot = ({ status }) => {
   const getStatusColor = (status) => {
     switch (status) {
-      case JobStatus.OPEN.value:
+      case JobStatus.DONE.value:
         return 'bg-[#33cc33]';
       case JobStatus.CLOSED.value:
       case JobStatus.DENY.value:
         return 'bg-[#ff0000]';
       case JobStatus.WORK_IN_PROGRESS.value:
+        return 'bg-blue animate-blink'
+      case JobStatus.OPEN.value:
         return 'bg-blue'
       default:
         return 'bg-[#ff9900]';
@@ -28,12 +30,12 @@ export const JobPricingStatusDot = ({ status }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case JobPricingStatus.ACCEPTED.value:
-        return 'bg-[#33cc33]';
+        return 'bg-blue animate-blink';
       case JobPricingStatus.REVOKE.value:
       case JobPricingStatus.DENY.value:
         return 'bg-[#ff0000]';
       case JobPricingStatus.DONE.value:
-        return 'bg-blue'
+        return 'bg-[#33cc33]';
       default:
         return 'bg-[#ff9900]';
     }

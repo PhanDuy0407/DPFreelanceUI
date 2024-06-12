@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import formatDate from "../utils";
+import { formatDate } from "../utils";
 
 const RecruiterJobCard = ({ data }) => {
   const { id, name, poster, min_price, max_price, price_unit, created_at, end_date, description } = data;

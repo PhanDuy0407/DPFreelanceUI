@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { post } from '../../utils/request'
 import { useAuth } from '../../utils/customHook/useAuth';
 
-const Login = () => {
+const AdminLogin = () => {
     const {
         register,
         handleSubmit,
@@ -15,16 +15,16 @@ const Login = () => {
     const mutation = post()
 
     useEffect(() => {
-        if (user && !loadingUser) navigate("/applicants/jobs")
+        if (user && !loadingUser && user.is_admin) navigate("/admin")
     }, [user, loadingUser])
 
     const onSubmit = (data) => {
-        mutation.mutateAsync({ url: "/auth/login", data }).then(
+        mutation.mutateAsync({ url: "/auth/admin/login", data }).then(
             (response) => {
                 const token = response.data.data.access_token
                 localStorage.setItem('access_token', token)
                 refetchUser()
-                navigate("/search")
+                navigate("/admin")
             }
         ).catch((error) => {
             console.log(error)
@@ -33,7 +33,7 @@ const Login = () => {
     }
 
     return (
-        <div className='rounded-lg bg-white shadow w-1/2 mx-auto mt-10'>
+        <div className='rounded-lg bg-white shadow w-1/2 mx-auto mt-16'>
             <div className='p-12'>
                 <p className='text-sm text-[#757575] pb-1'>Welcome back! 👋</p>
                 <h3 className='mb-6 text-xl text-gray-900 font-bold'>
@@ -89,16 +89,9 @@ const Login = () => {
                         Đăng nhập
                     </button>
                 </form>
-                <p className='text-sm w-full text-center mt-6 font-bold text-[#6B7E8B]'>
-                    Bạn không có tài khoản?
-                    <span className='text-[#625BF7] cursor-pointer'>
-                        {' '}
-                        Click vào đây
-                    </span>
-                </p>
             </div>
         </div>
     )
 }
 
-export default Login
+export default AdminLogin
