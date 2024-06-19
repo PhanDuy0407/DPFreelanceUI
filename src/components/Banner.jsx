@@ -12,28 +12,23 @@ const Banner = ({ handleInputChange, query }) => {
         Có vô vàn các công việc bán thời gian về công nghệ, design, ... đang chờ đợi bạn
       </p>
 
-      <form className="">
-        <div className="flex justify-start md:flex-row flex-col md:gap-0 gap-4">
-          <div className="flex md:rounded-s-md rounded-l shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 w-full">
-            <input
-              type="text"
-              name="username"
-              id="username"
-              className="block flex-1 border-0 bg-transparent py-1.5 pl-8 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-              placeholder="Tìm kiếm việc làm"
-              onChange={handleInputChange}
-              value={query}
-            />
-            <FiSearch className="absolute mt-2.5 ml-2 text-gray-400" />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue py-2 px-8 text-white md:rounded-e-md md:rounded-s-none rounded"
-          >
-            Search
-          </button>
+      <div className="flex justify-start md:flex-row flex-col md:gap-0 gap-4">
+        <div className="flex md:rounded-s-md rounded-l shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 w-full">
+          <input
+            type="text"
+            className="block flex-1 border-0 bg-transparent py-1.5 pl-8 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+            placeholder="Tìm kiếm việc làm"
+            onChange={handleInputChange}
+            value={query}
+          />
+          <FiSearch className="absolute mt-2.5 ml-2 text-gray-400" />
         </div>
-      </form>
+        <button
+          className="bg-blue py-2 px-8 text-white md:rounded-e-md md:rounded-s-none rounded"
+        >
+          Search
+        </button>
+      </div>
     </div>
   );
 };

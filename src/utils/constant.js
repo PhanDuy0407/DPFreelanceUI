@@ -3,14 +3,13 @@ export const JobStatus = {
     OPEN: {label: "Đang tuyển", value: "OPEN"},
     DENY: {label: "Không hợp lệ", value: "DENY"},
     REOPEN: {label: "Đang tuyển trở lại", value: "REOPEN"},
-    WORK_IN_PROGRESS: {label: "Đang được thực hiện", value: "WORK_IN_PROGRESS"},
     CLOSED: {label: "Đã đóng", value: "CLOSED"},
-    DONE: {label: "Hoàn thành", value: "DONE"},
+    DONE: {label: "Đã tuyển", value: "DONE"},
 }
 
-export const JobPricingStatus = {
-    WAITING_FOR_APPROVE: {label: "Đang kiểm duyệt", value: "WAITING_FOR_APPROVE"},
-    ACCEPTED: {label: "Được chấp nhận", value: "ACCEPTED"},
+export const JobApplyStatus = {
+    WAITING_FOR_APPROVE: {label: "Đang ứng tuyển", value: "WAITING_FOR_APPROVE"},
+    ACCEPTED: {label: "Đang thực hiện", value: "ACCEPTED"},
     DENY: {label: "Bị từ chối", value: "DENY"},
     REVOKE: {label: "Đã thu hồi", value: "REVOKE"},
     DONE: {label: "Hoàn thành", value: "DONE"},
@@ -18,7 +17,7 @@ export const JobPricingStatus = {
 
 export const JobType = {
     PER_HOUR: {label: "Theo giờ", value: "PER_HOUR"},
-    PER_PRJ: {label: "Theo dự án", value: "PER_PRJ"},
+    PER_PRJ: {label: "Theo kíp", value: "PER_PRJ"},
 }
 
 export const skillOptions = [

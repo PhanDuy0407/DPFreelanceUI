@@ -13,7 +13,7 @@ const RegisterRole = (props) => {
                     <div className="flex justify-center space-x-16">
                         <div className="flex flex-col items-center">
                             <img src="../images/document.png" alt="Button 1" className="cursor-pointer h-24 w-24" onClick={() => setSelectedRole("freelancer")} />
-                            <p className="text-xl mt-2">Freelancer</p>
+                            <p className="text-xl mt-2">Người tìm việc</p>
                         </div>
                         <div className="flex flex-col items-center">
                             <img src="../images/computer.png" alt="Button 2" className="cursor-pointer h-24 w-24" onClick={() => setSelectedRole("employer")} />

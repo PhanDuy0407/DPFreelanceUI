@@ -92,7 +92,7 @@ const CreateJob = () => {
           {/* second row start */}
           <div className="create-job-flex">
             <div className="lg:w-1/2 w-full">
-              <label htmlFor="minPrice" className='input-label'>Ngân sách nhỏ nhất</label>
+              <label htmlFor="minPrice" className='input-label'>Giá nhỏ nhất</label>
               <input
                 type="text"
                 placeholder="500000"
@@ -102,7 +102,7 @@ const CreateJob = () => {
             </div>
 
             <div className="lg:w-1/2 w-full">
-              <label htmlFor="maxPrice" className='input-label'>Ngân sách lớn nhất</label>
+              <label htmlFor="maxPrice" className='input-label'>Giá lớn nhất</label>
               <input
                 type="text"
                 placeholder="1000000"
@@ -125,7 +125,7 @@ const CreateJob = () => {
               <label htmlFor="type" className='input-label'>Trả theo?</label>
               <select {...register("type")} className="auth-modal-input">
                 <option value="PER_HOUR">Theo giờ</option>
-                <option value="PER_PRJ">Theo dự án</option>
+                <option value="PER_PRJ">Theo kíp</option>
               </select>
             </div>
           </div>

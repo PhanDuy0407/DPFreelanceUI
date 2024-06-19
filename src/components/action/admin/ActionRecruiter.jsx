@@ -1,22 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { put } from '../../../utils/request';
+import { put, deleteMutate } from '../../../utils/request';
+import useModal from '../../../utils/customHook/useModal';
+import UpdateRecruiterModal from '../../modal/UpdateRecruiterModal';
 
-const ActionAccount = ({ data, refecthChange }) => {
+const ActionRecruiter = ({ data, refecthChange }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     const toggleDropdown = () => setIsOpen(!isOpen);
     const mutateStatus = put()
-
-    const changeStatus = (status) => {
-        const url = `admin/accounts/${data.id}/${status}`
-        mutateStatus.mutateAsync({ url }).then(
-            () => alert("Success")
-        ).then(() => refecthChange()).catch((error) => {
-            console.log(error)
-            alert(error?.response?.data?.detail || "Network Error")
-        })
-        setIsOpen(false);
-    }
+    const deleteAsync = deleteMutate()
+    const { isOpen: isOpenModal, openModal, closeModal } = useModal();
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -47,7 +40,7 @@ const ActionAccount = ({ data, refecthChange }) => {
 
             {isOpen && (
                 <div
-                    className="origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+                    className="origin-top-right absolute right-0 mt-2 w-24 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="menu-button"
@@ -59,24 +52,19 @@ const ActionAccount = ({ data, refecthChange }) => {
                             role="menuitem"
                             tabIndex="-1"
                             id="menu-item-0"
-                            onClick={() => changeStatus('enable')}
+                            onClick={() => {
+                                setIsOpen(false)
+                                openModal()
+                            }}
                         >
-                            Kích hoạt
-                        </button>
-                        <button
-                            className="text-red-700 block px-4 py-2 text-sm w-full text-left hover:bg-gray-100"
-                            role="menuitem"
-                            tabIndex="-1"
-                            id="menu-item-1"
-                            onClick={() => changeStatus('disable')}
-                        >
-                            Vô hiệu hóa
+                            Cập nhật
                         </button>
                     </div>
                 </div>
             )}
+            <UpdateRecruiterModal isOpen={isOpenModal} closeModal={closeModal} data={data} refetch={refecthChange} />
         </div>
     );
 };
 
-export default ActionAccount;
+export default ActionRecruiter;

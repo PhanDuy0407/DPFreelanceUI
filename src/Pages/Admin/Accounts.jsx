@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { get } from '../../utils/request';
 import SimpleTable from '../../components/SimpleTable'
-import { JobStatusDot } from '../../components/StatusDot';
 import { formatDate } from '../../utils';
-import { JobType } from '../../utils/constant';
 import { useTabContext } from '../../utils/customHook/SideTabProvider';
 import ActionAccount from '../../components/action/admin/ActionAccount';
 import { FaRegCircleCheck } from "react-icons/fa6";
@@ -77,9 +75,7 @@ const Accounts = () => {
     );
 
     return (
-        <div className="container mx-auto p-4">
-            <SimpleTable columns={columns} data={accounts} loading={isLoading} />
-        </div>
+        <SimpleTable columns={columns} data={accounts} loading={isLoading} />
     )
 }
 

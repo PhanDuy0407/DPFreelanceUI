@@ -14,6 +14,8 @@ const Recruiter = (props) => {
             city: recruiter?.city || "",
             address: recruiter?.address || "",
             phone: recruiter?.phone,
+            cccd: recruiter?.cccd,
+            company_name: recruiter?.company_name,
         }
     })
     const navigate = useNavigate()
@@ -35,6 +37,16 @@ const Recruiter = (props) => {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
+                <div className='mb-4'>
+                    <label htmlFor='company_name' className='input-label'>
+                        Tên công ty
+                    </label>
+                    <input
+                        type='text'
+                        {...register('company_name', {})}
+                        className='auth-modal-input'
+                    />
+                </div>
                 <div className='mb-4'>
                     <label htmlFor='city' className='input-label'>
                         Thành phố
@@ -69,6 +81,23 @@ const Recruiter = (props) => {
                     {errors.phone && (
                         <p className='text-xs text-red-500 pt-0.5'>
                             {errors.phone.message}
+                        </p>
+                    )}
+                </div>
+                <div className='mb-4'>
+                    <label htmlFor='phone' className='input-label'>
+                        Số căn cước công dân
+                    </label>
+                    <input
+                        type='text'
+                        {...register('cccd', {
+                            required: 'CCCD is required',
+                        })}
+                        className='auth-modal-input'
+                    />
+                    {errors.cccd && (
+                        <p className='text-xs text-red-500 pt-0.5'>
+                            {errors.cccd.message}
                         </p>
                     )}
                 </div>

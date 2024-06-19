@@ -1,21 +1,20 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { get } from '../../utils/request';
 import SimpleTable from '../../components/SimpleTable'
-import { JobStatusDot } from '../../components/StatusDot';
-import { formatDate } from '../../utils';
+import { JobApplyStatusDot } from '../../components/StatusDot';
+import { formatDate, truncate } from '../../utils';
 import { JobType } from '../../utils/constant';
 import { useTabContext } from '../../utils/customHook/SideTabProvider';
-import ActionJob from '../../components/action/admin/ActionJob';
 
-const Jobs = () => {
+const Applies = () => {
     const [jobs, setJobs] = useState([]);
     const { setActiveTab } = useTabContext()
 
     useEffect(() => {
-        setActiveTab("jobs")
+        setActiveTab("applies")
     }, [])
 
-    const { isLoading, data, refetch } = get("adminJobs", "/admin/jobs", { order_by: 'created_at:desc,status:asc' })
+    const { isLoading, data, refetch } = get("adminJobs", "/admin/applies")
     useEffect(() => {
         if (data?.data) {
             const listJobs = data.data.map((job) => {
@@ -32,37 +31,40 @@ const Jobs = () => {
             {
                 Header: 'Tên công việc',
                 accessor: 'name',
-                Cell: ({ row }) => <a className="text-blue hover:underline" href={`/recruiters/jobs/${row.original?.id}`}>{row.values.name}</a>
+                Cell: ({ row }) => {
+                    return (
+                        <a className="text-blue hover:underline" href={`/jobs/${row.original.job?.id}`}>
+                            {truncate(row.original.job?.name)}
+                        </a>
+                    )
+                }
             },
             {
                 Header: 'Loại',
                 accessor: 'type',
-                Cell: ({ row }) => JobType[row.values.type]?.label
+                Cell: ({ row }) => JobType[row.original.job?.type]?.label
             },
             {
                 Header: 'Trạng thái',
                 accessor: 'status',
                 Cell: ({ row }) => (
-                    <JobStatusDot status={row.values.status} />
+                    <JobApplyStatusDot status={row.values.status} />
                 ),
             },
             {
                 Header: 'Người thuê',
                 accessor: 'posterName',
                 Cell: ({ row }) => {
-                    return (`${row.original.poster?.information?.fname} ${row.original.poster?.information?.lname}`)
+                    return (`${row.original.job?.poster?.information?.fname} ${row.original.job?.poster?.information?.lname}`)
                 }
             },
             {
                 Header: "Người thực hiện",
                 accessor: "pic",
                 Cell: ({ row }) => {
-                    if (row.original.job_applied) {
-                        return (row.original.job_applied?.applicant?.information?.fname && row.original.job_applied?.applicant?.information?.lname)
-                            ? `${row.original.job_applied?.applicant?.information?.fname} ${row.original.job_applied?.applicant?.information?.lname}`
-                            : row.original.job_applied?.applicant?.information?.email
-                    }
-                    else return null
+                    return (row.original.applicant?.information?.fname && row.original.applicant?.information?.lname)
+                        ? `${row.original.applicant?.information?.fname} ${row.original.applicant?.information?.lname}`
+                        : row.original.applicant?.information?.email
                 }
             },
             {
@@ -71,10 +73,15 @@ const Jobs = () => {
                 Cell: ({ row }) => formatDate(row.original.created_at)
             },
             {
-                Header: "Hành động",
-                accessor: "action",
-                Cell: ({ row }) => <ActionJob data={row.original} refecthChange={refetch} />
+                Header: "Ngày được nhận",
+                accessor: "applied_at",
+                Cell: ({ row }) => row.values.applied_at ? formatDate(row.values.applied_at) : null
             },
+            {
+                Header: "Ngày hoàn thành",
+                accessor: "done_at",
+                Cell: ({ row }) => row.values.done_at ? formatDate(row.values.done_at) : null
+            }
         ],
         []
     );
@@ -84,4 +91,4 @@ const Jobs = () => {
     )
 }
 
-export default Jobs
+export default Applies

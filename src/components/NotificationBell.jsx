@@ -90,7 +90,7 @@ const NotificationBell = () => {
                             Mark all as read
                         </button>
                     </div>
-                    <ul>
+                    <ul className='overflow-y-auto h-96'>
                         {notifications.map((notification) => (
                             <li key={notification.id} className='p-4 flex items-center border-b border-gray-200 hover:bg-gray-200'>
                                 <div className="rounded-full overflow-hidden mr-2">

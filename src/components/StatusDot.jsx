@@ -1,5 +1,5 @@
 import React from 'react';
-import { JobStatus, JobPricingStatus } from '../utils/constant';
+import { JobStatus, JobApplyStatus } from '../utils/constant';
 
 export const JobStatusDot = ({ status }) => {
   const getStatusColor = (status) => {
@@ -9,8 +9,6 @@ export const JobStatusDot = ({ status }) => {
       case JobStatus.CLOSED.value:
       case JobStatus.DENY.value:
         return 'bg-[#ff0000]';
-      case JobStatus.WORK_IN_PROGRESS.value:
-        return 'bg-blue animate-blink'
       case JobStatus.OPEN.value:
         return 'bg-blue'
       default:
@@ -26,15 +24,15 @@ export const JobStatusDot = ({ status }) => {
   );
 };
 
-export const JobPricingStatusDot = ({ status }) => {
+export const JobApplyStatusDot = ({ status }) => {
   const getStatusColor = (status) => {
     switch (status) {
-      case JobPricingStatus.ACCEPTED.value:
-        return 'bg-blue animate-blink';
-      case JobPricingStatus.REVOKE.value:
-      case JobPricingStatus.DENY.value:
+      case JobApplyStatus.ACCEPTED.value:
+        return 'bg-blue';
+      case JobApplyStatus.REVOKE.value:
+      case JobApplyStatus.DENY.value:
         return 'bg-[#ff0000]';
-      case JobPricingStatus.DONE.value:
+      case JobApplyStatus.DONE.value:
         return 'bg-[#33cc33]';
       default:
         return 'bg-[#ff9900]';
@@ -42,9 +40,9 @@ export const JobPricingStatusDot = ({ status }) => {
   };
 
   return (
-    <div className="flex items-center space-x-2 mt-2">
+    <div className="flex items-center space-x-2">
       <span className={`w-3 h-3 rounded-full ${getStatusColor(status)}`}></span>
-      <span className="text-md font-medium">{JobPricingStatus[status]?.label}</span>
+      <span className="text-md font-medium">{JobApplyStatus[status]?.label}</span>
     </div>
   );
 };

@@ -14,3 +14,11 @@ export const removeKeys = (obj1, obj2) => {
     }
     return obj1;
   }
+
+export const truncate = (str, num = 48) => {
+  if (str?.length > num) {
+    return str.slice(0, num) + "...";
+  } else {
+    return str;
+  }
+} 

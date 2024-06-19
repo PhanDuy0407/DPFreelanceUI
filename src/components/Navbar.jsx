@@ -49,7 +49,7 @@ const Navbar = ({ isAdmin }) => {
   const navItems = [
     { path: "/search", title: "Tìm kiếm việc làm" },
     {
-      title: "Freelancer",
+      title: "Người tìm việc",
       children: [
         { path: "/applicants/jobs", title: "Quản lý công việc" },
       ]
@@ -104,7 +104,7 @@ const Navbar = ({ isAdmin }) => {
                       {navItem.title}
                     </button>
                     {dropdownNavLink === index && (
-                      <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
+                      <div className="absolute left-0 mt-2 w-52 bg-white rounded-md shadow-lg py-2 z-20">
                         {navItem.children.map((child) => (
                           <NavLink
                             key={child.path}

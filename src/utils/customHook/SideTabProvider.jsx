@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 const tabs = {
     analytics: "Thống kê",
-    accounts: "Quản lý tài khoản",
+    accounts: "Quản lý người dùng",
     jobs: "Quản lý thông tin tuyển dụng",
+    applies: "Quản lý công việc",
 }
 
 const TabContext = createContext();
@@ -36,10 +37,12 @@ const SideTabProvider = ({ children }) => {
                 </ul>
             </div>
             <div className="w-5/6 p-6">
-                <h1 className='text-xl font-bold mb-4'>{tabs[activeTab]}</h1>
-                <TabContext.Provider value={{ activeTab, setActiveTab }}>
-                    {children}
-                </TabContext.Provider>
+                <h1 className='text-xl font-bold p-4'>{tabs[activeTab]}</h1>
+                <div className="container w-full p-4">
+                    <TabContext.Provider value={{ activeTab, setActiveTab }}>
+                        {children}
+                    </TabContext.Provider>
+                </div>
             </div>
         </div>
     );

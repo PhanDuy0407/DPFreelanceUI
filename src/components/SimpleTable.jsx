@@ -14,7 +14,7 @@ const SimpleTable = ({ columns, data, loading = false }) => {
   });
 
   return (
-    <div className='relative'>
+    <div className='w-full overflow-x-auto'>
       <table {...getTableProps()} className="min-w-full divide-y divide-gray-200 border">
         <thead className="bg-gray-50">
           {headerGroups.map(headerGroup => (
@@ -63,4 +63,4 @@ const SimpleTable = ({ columns, data, loading = false }) => {
   );
 };
 
-export default SimpleTable
+export default SimpleTable;

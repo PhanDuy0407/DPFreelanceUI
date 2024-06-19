@@ -15,10 +15,14 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const { isLoading, data } = get(["listJob", params], "/jobs", params)
+  const { isLoading, data, refetch } = get(["listJob"], "/jobs", params)
   useEffect(() => {
     if (data) setJobs(data.data || [])
   }, [data])
+
+  useEffect(() => {
+    refetch()
+  }, [params])
 
   // ----------- Input Filter -----------
   const [query, setQuery] = useState("");

@@ -6,7 +6,7 @@ import Settings from './Tab/Settings';
 
 const tabs = {
     information: "Thông tin tài khoản",
-    applicant: "Thông tin freelancer",
+    applicant: "Thông tin người lao động",
     recruiter: "Thông tin nhà tuyển dụng",
     settings: "Cài đặt tài khoản"
 }

@@ -35,7 +35,7 @@ const JobType = ({ handleChange }) => {
                 <InputField
                     handleChange={onChange}
                     value="PER_PRJ"
-                    title="Theo dự án"
+                    title="Theo kíp"
                     name="test2"
                     type="checkbox"
                 />

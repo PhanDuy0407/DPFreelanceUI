@@ -7,11 +7,7 @@ const Analytics = (props) => {
         setActiveTab("analytics")
     }, [])
 
-    return (
-        <div className="container mx-auto p-4">
-            Thống kê
-        </div>
-    )
+    return "Thống kê"
 }
 
 export default Analytics
