@@ -5,6 +5,7 @@ import { JobApplyStatusDot } from '../../../components/StatusDot';
 import { formatDate } from '../../../utils';
 import { JobType } from '../../../utils/constant';
 import { JobApplyStatus } from '../../../utils/constant';
+import { truncate } from '../../../utils';
 
 const DoneJobs = () => {
     const [jobs, setJobs] = useState([]);
@@ -27,7 +28,7 @@ const DoneJobs = () => {
                 {
                     Header: 'Tên công việc',
                     accessor: 'name',
-                    Cell: ({ row }) => <a className="text-blue hover:underline" href={`/recruiters/jobs/${row.original?.id}`}>{row.values.name}</a>
+                    Cell: ({ row }) => <a className="text-blue hover:underline" href={`/recruiters/jobs/${row.original?.id}`}>{truncate(row.values.name)}</a>
                 },
                 {
                     Header: 'Giá',

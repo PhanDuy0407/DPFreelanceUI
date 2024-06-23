@@ -5,6 +5,7 @@ import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
 import { post } from "../../../utils/request";
 import CreatableSelect from "react-select/creatable";
 import { skillOptions } from "../../../utils/constant";
+import { notify } from "../../../components/Toast";
 
 const Applicant = (props) => {
     const { applicant } = props?.user || {}
@@ -39,13 +40,13 @@ const Applicant = (props) => {
         data.skills = selectedOption.map((skill) => skill.value),
             mutate.mutateAsync({ url: "/applicants/register", data }).then(
                 () => props.refetchUser?.()
-            ).then(() => alert("Success")).then(() => {
+            ).then(() => notify("Success")).then(() => {
                 if (props.navigate) {
                     navigate(props.navigate)
                 }
             }).catch((error) => {
                 console.log(error)
-                alert(error?.response?.data?.detail || "Network Error")
+                notify(error?.response?.data?.detail || "Network Error", true)
             })
     }
 

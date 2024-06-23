@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../utils/customHook/useAuth'
 import { post } from '../../utils/request'
+import { notify } from '../../components/Toast'
 
 const Register = () => {
     const {
@@ -36,7 +37,7 @@ const Register = () => {
             }
         ).catch((error) => {
             console.log(error)
-            alert(error?.response?.data?.detail || "Network Error")
+            notify(error?.response?.data?.detail || "Network Error", true)
         })
     }
 

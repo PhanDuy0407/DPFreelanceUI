@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 import { post } from '../../utils/request'
 import { useAuth } from '../../utils/customHook/useAuth';
+import { notify } from '../../components/Toast';
 
 const AdminLogin = () => {
     const {
@@ -28,7 +29,7 @@ const AdminLogin = () => {
             }
         ).catch((error) => {
             console.log(error)
-            alert(error?.response?.data?.detail || "Network Error")
+            notify(error?.response?.data?.detail || "Network Error", true)
         })
     }
 

@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider } from './utils/customHook/useAuth';
 import SideTabProvider from './utils/customHook/SideTabProvider';
+import Toast from './components/Toast';
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ function App() {
         <Navbar isAdmin={isAdmin} />
         {haveSideBar ? <SideTabProvider><Outlet /></SideTabProvider> : <Outlet />}
       </QueryClientProvider>
+      <Toast />
     </AuthProvider>
   )
 }

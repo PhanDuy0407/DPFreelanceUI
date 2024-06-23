@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { put } from '../../../utils/request';
+import { notify } from '../../Toast';
 
 const ActionAccount = ({ data, refecthChange }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -10,10 +11,10 @@ const ActionAccount = ({ data, refecthChange }) => {
     const changeStatus = (status) => {
         const url = `admin/accounts/${data.id}/${status}`
         mutateStatus.mutateAsync({ url }).then(
-            () => alert("Success")
+            () => notify("Success")
         ).then(() => refecthChange()).catch((error) => {
             console.log(error)
-            alert(error?.response?.data?.detail || "Network Error")
+            notify(error?.response?.data?.detail || "Network Error", true)
         })
         setIsOpen(false);
     }

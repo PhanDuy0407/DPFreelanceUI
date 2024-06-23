@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { put } from '../../utils/request';
+import { notify } from '../Toast';
 
 const UpdateRecruiterModal = ({ isOpen, closeModal, data, refetch }) => {
     if (!isOpen) return null;
@@ -11,13 +12,13 @@ const UpdateRecruiterModal = ({ isOpen, closeModal, data, refetch }) => {
     const onClick = () => {
         mutate.mutateAsync({ url: `/admin/recruiters/${data?.id}/post_attempt`, data: { attempt: postAttempt } }).then(
             () => {
-                alert("Success")
+                notify("Success")
                 refetch()
                 closeModal()
             }
         ).catch((error) => {
             console.log(error)
-            alert(error?.response?.data?.detail || "Network Error")
+            notify(error?.response?.data?.detail || "Network Error", true)
         })
     }
 

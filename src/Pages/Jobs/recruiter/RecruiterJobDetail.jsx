@@ -8,6 +8,7 @@ import ApplyList from "../ApplyList";
 import { skillOptions } from "../../../utils/constant";
 import { JobStatusDot } from "../../../components/StatusDot";
 import { JobStatus } from "../../../utils/constant";
+import { notify } from "../../../components/Toast";
 
 const RecruiterJobDetail = () => {
     const { id } = useParams()
@@ -86,12 +87,12 @@ const RecruiterJobDetail = () => {
         }
         mutate.mutateAsync({ url: `/jobs/${id}`, data: payload }).then(
             (response) => {
-                alert("Success")
+                notify("Success")
                 navigate("/recruiters/jobs")
             }
         ).catch((error) => {
             console.log(error)
-            alert(error?.response?.data?.detail || "Network Error")
+            notify(error?.response?.data?.detail || "Network Error", true)
         })
     };
 

@@ -8,6 +8,7 @@ import { JobType, JobStatus } from '../../utils/constant';
 import { JobStatusDot } from '../../components/StatusDot';
 import { skillOptions } from "../../utils/constant";
 import Badge from '../../components/Badge';
+import { notify } from '../../components/Toast';
 
 const JobDetail = () => {
     const { id } = useParams();
@@ -26,11 +27,11 @@ const JobDetail = () => {
     const mutate = post()
     const handleApply = () => {
         mutate.mutateAsync({ url: `applicants/jobs/${id}/apply` }).then(() => {
-            alert("Success")
+            notify("Success")
             navigate(`/applicants/jobs`)
         }).catch((error) => {
             console.log(error)
-            alert(error?.response?.data?.detail || "Network Error")
+            notify(error?.response?.data?.detail || "Network Error", true)
         })
     }
 

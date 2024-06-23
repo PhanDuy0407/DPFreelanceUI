@@ -24,7 +24,7 @@ const RegisterRole = (props) => {
             )}
 
             {selectedRole === 'freelancer' && (<>
-                <h2 className="text-3xl mb-8">Đăng ký làm freelancer</h2>
+                <h2 className="text-3xl mb-8">Đăng ký làm người tìm việc</h2>
                 <div className="container mx-auto w-2/3">
                     <Applicant navigate="/search" {...props} />
                 </div></>

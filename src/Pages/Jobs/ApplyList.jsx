@@ -5,15 +5,16 @@ import { skillOptions } from '../../utils/constant';
 import { JobApplyStatusDot } from '../../components/StatusDot';
 import { put } from '../../utils/request';
 import { JobApplyStatus } from '../../utils/constant';
+import { notify } from '../../components/Toast';
 
 function ApplyList({ data, refecthChange, jobId, isLoadingApply }) {
     const mutate = put()
 
     const changeStatus = (status, applicantId) => {
         const payload = { status }
-        mutate.mutateAsync({ url: `recruiters/jobs/${jobId}/applies/${applicantId}`, data: payload }).then(() => alert("Success")).then(() => refecthChange()).catch((error) => {
+        mutate.mutateAsync({ url: `recruiters/jobs/${jobId}/applies/${applicantId}`, data: payload }).then(() => notify("Success")).then(() => refecthChange()).catch((error) => {
             console.log(error)
-            alert(error?.response?.data?.detail || "Network Error")
+            notify(error?.response?.data?.detail || "Network Error", true)
         })
     }
     const navigate = useNavigate()

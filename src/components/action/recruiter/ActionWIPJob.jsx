@@ -1,27 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { put, deleteMutate } from '../../../utils/request';
+import { put } from '../../../utils/request';
 import { notify } from '../../Toast';
 
-const ActionJob = ({ data, refecthChange }) => {
+const ActionWIPJob = ({ data, refecthChange }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     const toggleDropdown = () => setIsOpen(!isOpen);
     const mutateStatus = put()
-    const deleteAsync = deleteMutate()
 
-    const changeStatus = (status) => {
-        const payload = { status }
-        mutateStatus.mutateAsync({ url: `admin/jobs/${data.id}/status`, data: payload }).then(
-            () => notify("Success")
-        ).then(() => refecthChange()).catch((error) => {
-            console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
-        })
-        setIsOpen(false);
-    }
-
-    const deleteJob = () => {
-        deleteAsync.mutateAsync({ url: `admin/jobs/${data.id}` }).then(
+    const markDone = () => {
+        mutateStatus.mutateAsync({ url: `recruiters/jobs/${data.id}/mark_done` }).then(
             () => notify("Success")
         ).then(() => refecthChange()).catch((error) => {
             console.log(error)
@@ -71,36 +59,9 @@ const ActionJob = ({ data, refecthChange }) => {
                             role="menuitem"
                             tabIndex="-1"
                             id="menu-item-0"
-                            onClick={() => changeStatus('OPEN')}
+                            onClick={markDone}
                         >
-                            Duyệt
-                        </button>
-                        <button
-                            className="text-red-700 block px-4 py-2 text-sm w-full text-left hover:bg-gray-100"
-                            role="menuitem"
-                            tabIndex="-1"
-                            id="menu-item-1"
-                            onClick={() => changeStatus('DENY')}
-                        >
-                            Từ chối
-                        </button>
-                        <button
-                            className="text-red-700 block px-4 py-2 text-sm w-full text-left hover:bg-gray-100"
-                            role="menuitem"
-                            tabIndex="-1"
-                            id="menu-item-1"
-                            onClick={() => changeStatus('CLOSED')}
-                        >
-                            Đóng
-                        </button>
-                        <button
-                            className="text-red-700 block px-4 py-2 text-sm w-full text-left hover:bg-gray-100"
-                            role="menuitem"
-                            tabIndex="-1"
-                            id="menu-item-2"
-                            onClick={() => deleteJob()}
-                        >
-                            Xóa
+                            Hoàn thành
                         </button>
                     </div>
                 </div>
@@ -109,4 +70,4 @@ const ActionJob = ({ data, refecthChange }) => {
     );
 };
 
-export default ActionJob;
+export default ActionWIPJob;

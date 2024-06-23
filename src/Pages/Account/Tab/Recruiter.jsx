@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { post } from "../../../utils/request";
+import { notify } from "../../../components/Toast";
 
 const Recruiter = (props) => {
     const { recruiter } = props?.user || {}
@@ -24,13 +25,13 @@ const Recruiter = (props) => {
     const onSubmit = (data) => {
         mutate.mutateAsync({ url: "/recruiters/register", data }).then(
             () => props.refetchUser?.()
-        ).then(() => alert("Success")).then(() => {
+        ).then(() => notify("Success")).then(() => {
             if (props.navigate) {
                 navigate(props.navigate)
             }
         }).catch((error) => {
             console.log(error)
-            alert(error?.response?.data?.detail || "Network Error")
+            notify(error?.response?.data?.detail || "Network Error", true)
         })
     }
 

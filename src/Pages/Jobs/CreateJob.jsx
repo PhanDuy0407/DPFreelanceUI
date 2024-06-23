@@ -38,12 +38,12 @@ const CreateJob = () => {
     }
     mutate.mutateAsync({ url: "/jobs", data: payload }).then(
       (response) => {
-        alert("Success")
+        notify("Success")
         navigate(`/recruiters/jobs`)
       }
     ).catch((error) => {
       console.log(error)
-      alert(error?.response?.data?.detail || "Network Error")
+      notify(error?.response?.data?.detail || "Network Error", true)
     })
   };
 
