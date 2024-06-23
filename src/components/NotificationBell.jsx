@@ -25,7 +25,7 @@ const NotificationBell = () => {
 
     useEffect(() => {
         if (access_token) {
-            const socket = new WebSocket(`ws://localhost:8000/ws/notifications?token=${access_token}`);
+            const socket = new WebSocket(`ws://freelance.duyphan.cloud/ws/notifications?token=${access_token}`);
             socket.onmessage = (event) => {
                 const { data } = JSON.parse(event.data);
                 setNotifications(data || []);

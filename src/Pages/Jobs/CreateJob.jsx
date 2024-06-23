@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 import { get, post } from '../../utils/request'
+import { notify } from '../../components/Toast'
 
 const CreateJob = () => {
   const [selectedOption, setselectedOption] = useState([]);
