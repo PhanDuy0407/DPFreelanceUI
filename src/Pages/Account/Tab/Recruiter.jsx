@@ -25,13 +25,13 @@ const Recruiter = (props) => {
     const onSubmit = (data) => {
         mutate.mutateAsync({ url: "/recruiters/register", data }).then(
             () => props.refetchUser?.()
-        ).then(() => notify("Success")).then(() => {
+        ).then(() => notify("Thành công")).then(() => {
             if (props.navigate) {
                 navigate(props.navigate)
             }
         }).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi mạng", true)
         })
     }
 
@@ -44,9 +44,20 @@ const Recruiter = (props) => {
                     </label>
                     <input
                         type='text'
-                        {...register('company_name', {})}
+                        {...register('company_name', {
+                            required: 'Vui lòng nhập tên công ty',
+                            minLength: {
+                                value: 8,
+                                message: 'Tên công ty phải có ít nhất 8 ký tự',
+                            },
+                        })}
                         className='auth-modal-input'
                     />
+                    {errors.company_name && (
+                        <p className='text-xs text-red-500 pt-0.5'>
+                            {errors.company_name.message}
+                        </p>
+                    )}
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='city' className='input-label'>
@@ -54,9 +65,16 @@ const Recruiter = (props) => {
                     </label>
                     <input
                         type='text'
-                        {...register('city', {})}
+                        {...register('city', {
+                            required: 'Vui lòng nhập thành phố',
+                        })}
                         className='auth-modal-input'
                     />
+                    {errors.city && (
+                        <p className='text-xs text-red-500 pt-0.5'>
+                            {errors.city.message}
+                        </p>
+                    )}
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='address' className='input-label'>
@@ -64,9 +82,20 @@ const Recruiter = (props) => {
                     </label>
                     <input
                         type='text'
-                        {...register('address', {})}
+                        {...register('address', {
+                            required: 'Vui lòng nhập địa chỉ',
+                            minLength: {
+                                value: 5,
+                                message: 'Địa chỉ phải có ít nhất 5 ký tự',
+                            },
+                        })}
                         className='auth-modal-input'
                     />
+                    {errors.address && (
+                        <p className='text-xs text-red-500 pt-0.5'>
+                            {errors.address.message}
+                        </p>
+                    )}
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='phone' className='input-label'>
@@ -75,7 +104,11 @@ const Recruiter = (props) => {
                     <input
                         type='text'
                         {...register('phone', {
-                            required: 'Phone number is required',
+                            required: 'Vui lòng nhập số điện thoại',
+                            pattern: {
+                                value: /^[0-9]{10,11}$/,
+                                message: 'Số điện thoại không hợp lệ',
+                            }
                         })}
                         className='auth-modal-input'
                     />
@@ -86,13 +119,17 @@ const Recruiter = (props) => {
                     )}
                 </div>
                 <div className='mb-4'>
-                    <label htmlFor='phone' className='input-label'>
+                    <label htmlFor='cccd' className='input-label'>
                         Số căn cước công dân
                     </label>
                     <input
                         type='text'
                         {...register('cccd', {
-                            required: 'CCCD is required',
+                            required: 'Vui lòng nhập số căn cước công dân',
+                            pattern: {
+                                value: /^[0-9]{9,12}$/,
+                                message: 'Số căn cước công dân không hợp lệ',
+                            }
                         })}
                         className='auth-modal-input'
                     />

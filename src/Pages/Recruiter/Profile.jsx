@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { get } from '../../utils/request';
 import { formatDate } from '../../utils'
-import { skillOptions } from '../../utils/constant';
-import Badge from '../../components/Badge';
 
 const Profile = () => {
     const [recruiter, setRecruiter] = useState({})

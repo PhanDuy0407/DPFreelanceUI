@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from "react-router-dom";
+import CreatableSelect from "react-select/creatable";
 import { AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai';
 import { post } from "../../../utils/request";
-import CreatableSelect from "react-select/creatable";
 import { skillOptions } from "../../../utils/constant";
 import { notify } from "../../../components/Toast";
 
 const Applicant = (props) => {
-    const { applicant } = props?.user || {}
+    const { applicant } = props?.user || {};
     const [selectedOption, setselectedOption] = useState([]);
     const {
         control,
@@ -24,31 +24,31 @@ const Applicant = (props) => {
             address: applicant?.address,
             cv_link: applicant?.cv_link,
         }
-    })
-    const navigate = useNavigate()
+    });
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (applicant) {
             setselectedOption(skillOptions.filter(({ value }) => {
-                return applicant?.skills.includes(value)
-            }))
+                return applicant?.skills.includes(value);
+            }));
         }
-    }, [applicant])
+    }, [applicant]);
 
-    const mutate = post()
+    const mutate = post();
     const onSubmit = (data) => {
-        data.skills = selectedOption.map((skill) => skill.value),
-            mutate.mutateAsync({ url: "/applicants/register", data }).then(
-                () => props.refetchUser?.()
-            ).then(() => notify("Success")).then(() => {
-                if (props.navigate) {
-                    navigate(props.navigate)
-                }
-            }).catch((error) => {
-                console.log(error)
-                notify(error?.response?.data?.detail || "Network Error", true)
-            })
-    }
+        data.skills = selectedOption.map((skill) => skill.value);
+        mutate.mutateAsync({ url: "/applicants/register", data }).then(
+            () => props.refetchUser?.()
+        ).then(() => notify("Thành công")).then(() => {
+            if (props.navigate) {
+                navigate(props.navigate);
+            }
+        }).catch((error) => {
+            console.log(error);
+            notify(error?.response?.data?.detail || "Lỗi mạng", true);
+        });
+    };
 
     return (
         <div>
@@ -60,10 +60,10 @@ const Applicant = (props) => {
                     <input
                         type='number'
                         {...register('work_time', {
-                            required: 'Work time is required',
+                            required: 'Vui lòng nhập thời gian làm việc',
                             min: {
                                 value: 1,
-                                message: "Work time must be greater than 0"
+                                message: "Thời gian làm việc phải lớn hơn 0",
                             }
                         })}
                         className='auth-modal-input'
@@ -81,8 +81,19 @@ const Applicant = (props) => {
                     <textarea
                         className="auth-modal-input"
                         rows="4"
-                        {...register('bio')}
+                        {...register('bio', {
+                            required: 'Vui lòng nhập giới thiệu bản thân',
+                            minLength: {
+                                value: 10,
+                                message: 'Giới thiệu phải có ít nhất 10 ký tự',
+                            }
+                        })}
                     />
+                    {errors.bio && (
+                        <p className='text-xs text-red-500 pt-0.5'>
+                            {errors.bio.message}
+                        </p>
+                    )}
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='city' className='input-label'>
@@ -90,9 +101,16 @@ const Applicant = (props) => {
                     </label>
                     <input
                         type='text'
-                        {...register('city', {})}
+                        {...register('city', {
+                            required: 'Vui lòng nhập thành phố',
+                        })}
                         className='auth-modal-input'
                     />
+                    {errors.city && (
+                        <p className='text-xs text-red-500 pt-0.5'>
+                            {errors.city.message}
+                        </p>
+                    )}
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='address' className='input-label'>
@@ -100,9 +118,20 @@ const Applicant = (props) => {
                     </label>
                     <input
                         type='text'
-                        {...register('address', {})}
+                        {...register('address', {
+                            required: 'Vui lòng nhập địa chỉ',
+                            minLength: {
+                                value: 5,
+                                message: 'Địa chỉ phải có ít nhất 5 ký tự',
+                            }
+                        })}
                         className='auth-modal-input'
                     />
+                    {errors.address && (
+                        <p className='text-xs text-red-500 pt-0.5'>
+                            {errors.address.message}
+                        </p>
+                    )}
                 </div>
                 <div className='mb-4'>
                     <label className="input-label">Kỹ năng đã có</label>
@@ -120,9 +149,13 @@ const Applicant = (props) => {
                     </label>
                     <input
                         type='text'
-                        defaultValue={applicant?.work_time || 0}
+                        defaultValue={applicant?.phone || ""}
                         {...register('phone', {
-                            required: 'Phone number is required',
+                            required: 'Vui lòng nhập số điện thoại',
+                            pattern: {
+                                value: /^[0-9]{10,11}$/,
+                                message: 'Số điện thoại không hợp lệ',
+                            }
                         })}
                         className='auth-modal-input'
                     />
@@ -134,13 +167,18 @@ const Applicant = (props) => {
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='cv_link' className='input-label'>
-                        CV link
+                        Liên kết CV
                     </label>
                     <input
                         type='text'
                         {...register('cv_link')}
                         className='auth-modal-input'
                     />
+                    {errors.cv_link && (
+                        <p className='text-xs text-red-500 pt-0.5'>
+                            {errors.cv_link.message}
+                        </p>
+                    )}
                 </div>
                 <button
                     type='submit'
@@ -152,4 +190,5 @@ const Applicant = (props) => {
         </div>
     );
 }
-export default Applicant
+
+export default Applicant;

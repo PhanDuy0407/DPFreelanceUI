@@ -12,9 +12,9 @@ function ApplyList({ data, refecthChange, jobId, isLoadingApply }) {
 
     const changeStatus = (status, applicantId) => {
         const payload = { status }
-        mutate.mutateAsync({ url: `recruiters/jobs/${jobId}/applies/${applicantId}`, data: payload }).then(() => notify("Success")).then(() => refecthChange()).catch((error) => {
+        mutate.mutateAsync({ url: `recruiters/jobs/${jobId}/applies/${applicantId}`, data: payload }).then(() => notify("Thành công")).then(() => refecthChange()).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi", true)
         })
     }
     const navigate = useNavigate()

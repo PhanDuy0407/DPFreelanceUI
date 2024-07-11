@@ -27,11 +27,11 @@ const JobDetail = () => {
     const mutate = post()
     const handleApply = () => {
         mutate.mutateAsync({ url: `applicants/jobs/${id}/apply` }).then(() => {
-            notify("Success")
+            notify("Thành công")
             navigate(`/applicants/jobs`)
         }).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi", true)
         })
     }
 
@@ -72,7 +72,7 @@ const JobDetail = () => {
                                 ))}
                             </div>
                         </div>
-                        <button className='rounded-lg bg-[#312ECB] px-4 py-2 text-white mt-4' onClick={handleApply}>Ứng tuyển</button>
+                        {isApplicant && <button className='rounded-lg bg-[#312ECB] px-4 py-2 text-white mt-4' onClick={handleApply}>Ứng tuyển</button>}
                     </div>
                 </div>
 

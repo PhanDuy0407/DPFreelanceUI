@@ -4,7 +4,6 @@ import { notify } from '../Toast';
 
 const UpdateRecruiterModal = ({ isOpen, closeModal, data, refetch }) => {
     if (!isOpen) return null;
-    console.log(data)
 
     const [postAttempt, setPostAttempt] = useState(data?.remain_post_attempt || 0)
 
@@ -12,13 +11,13 @@ const UpdateRecruiterModal = ({ isOpen, closeModal, data, refetch }) => {
     const onClick = () => {
         mutate.mutateAsync({ url: `/admin/recruiters/${data?.id}/post_attempt`, data: { attempt: postAttempt } }).then(
             () => {
-                notify("Success")
+                notify("Thành công")
                 refetch()
                 closeModal()
             }
         ).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi", true)
         })
     }
 

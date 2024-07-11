@@ -5,16 +5,33 @@ import { JobApplyStatusDot } from '../../components/StatusDot';
 import { formatDate, truncate } from '../../utils';
 import { JobType } from '../../utils/constant';
 import { useTabContext } from '../../utils/customHook/SideTabProvider';
+import FilterComponent from '../../components/Filter';
 
 const Applies = () => {
     const [jobs, setJobs] = useState([]);
     const { setActiveTab } = useTabContext()
+    const [filters, setFilters] = useState({})
+
+    const handleApplyFilter = (filters) => {
+        let filter = {}
+        filters.forEach(element => {
+            let operation = "__eq"
+            if (element.operation === ">") {
+                operation = "__gt"
+            } else if (element.operation === "<") {
+                operation = "__lt"
+            }
+            const key = `${element.column}${operation}`
+            filter[key] = element.value.value || element.value
+        });
+        setFilters(filter)
+    };
 
     useEffect(() => {
         setActiveTab("applies")
     }, [])
 
-    const { isLoading, data, refetch } = get("adminJobs", "/admin/applies")
+    const { isLoading, data, refetch } = get(["adminAppliesJob", filters], "/admin/applies", { ...filters })
     useEffect(() => {
         if (data?.data) {
             const listJobs = data.data.map((job) => {
@@ -86,9 +103,18 @@ const Applies = () => {
         []
     );
 
-    return (
+    const filterCols = {
+        status: { type: "select", name: "Trạng thái", operations: ["="], values: [{ label: "Đang thực hiện", value: "ACCEPTED" }, { label: "Hoàn thành", value: "DONE" }] },
+        name: { type: "text", name: "Tên công việc", operations: ["="] },
+        created_at: { type: "date", name: "Ngày tạo", operations: ["=", ">", "<"] },
+        applied_at: { type: "date", name: "Ngày được nhận", operations: ["=", ">", "<"] },
+        done_at: { type: "date", name: "Ngày hoàn thành", operations: ["=", ">", "<"] },
+    }
+
+    return (<>
+        <FilterComponent columns={filterCols} onApplyFilter={handleApplyFilter} />
         <SimpleTable columns={columns} data={jobs} loading={isLoading} />
-    )
+    </>)
 }
 
 export default Applies

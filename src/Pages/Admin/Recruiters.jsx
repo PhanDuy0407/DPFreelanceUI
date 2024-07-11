@@ -1,15 +1,22 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { get } from '../../utils/request';
 import SimpleTable from '../../components/SimpleTable'
-import { JobStatusDot } from '../../components/StatusDot';
 import { formatDate } from '../../utils';
-import { JobType } from '../../utils/constant';
-import { useTabContext } from '../../utils/customHook/SideTabProvider';
 import ActionRecruiter from '../../components/action/admin/ActionRecruiter';
 import { truncate } from '../../utils';
+import RecruiterInfo from './component/RecruiterInfo';
+import useModal from '../../utils/customHook/useModal';
 
 const Recruiters = () => {
     const [recruiters, setRecruiters] = useState([]);
+    const [recruiterId, setRecruiterId] = useState(null);
+    const { isOpen, openModal, closeModal } = useModal();
+
+    useEffect(() => {
+        if (recruiterId) {
+            openModal()
+        } else closeModal()
+    }, [recruiterId])
 
     const { isLoading, data, refetch } = get("adminRecruiters", "/admin/recruiters")
     useEffect(() => {
@@ -28,6 +35,7 @@ const Recruiters = () => {
             {
                 Header: 'Username',
                 accessor: 'information.username',
+                Cell: ({ row }) => <p className="text-blue hover:underline cursor-pointer" onClick={() => setRecruiterId(row.original.id)}>{row.original.information?.username}</p>
             },
             {
                 Header: 'Email',
@@ -88,8 +96,10 @@ const Recruiters = () => {
         []
     );
 
-    return (
+    return (<>
         <SimpleTable columns={columns} data={recruiters} loading={isLoading} />
+        {recruiterId && <RecruiterInfo id={recruiterId} isOpen={isOpen} closeModal={() => setRecruiterId(null)} />}
+    </>
     )
 }
 

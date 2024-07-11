@@ -22,12 +22,12 @@ const Settings = (props) => {
             (response) => {
                 const token = response.data.data.access_token
                 localStorage.setItem('access_token', token)
-                notify("Success")
+                notify("Thành công")
                 refetchUser()
             }
         ).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi", true)
         })
     }
     return (

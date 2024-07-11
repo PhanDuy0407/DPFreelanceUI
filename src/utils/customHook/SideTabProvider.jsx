@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext, } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const tabs = {
-    analytics: "Thống kê",
+    // analytics: "Thống kê",
     accounts: "Quản lý người dùng",
     jobs: "Quản lý thông tin tuyển dụng",
     applies: "Quản lý công việc",

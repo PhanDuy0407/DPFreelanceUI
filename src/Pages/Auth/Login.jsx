@@ -29,7 +29,7 @@ const Login = () => {
             }
         ).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi", true)
         })
     }
 
@@ -43,15 +43,18 @@ const Login = () => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='mb-4'>
                         <label htmlFor='username' className='input-label'>
-                            Username
+                            Tên đăng nhập
                         </label>
                         <input
                             type='text'
                             className='auth-modal-input'
-                            {...register('username', {
-                                required: 'Username is required',
+                            {...register("username", {
+                                required: "Vui lòng nhập tên đăng nhập",
+                                pattern: {
+                                    value: /^[a-zA-Z0-9]{3,15}$/,
+                                    message: "Tên đăng nhập phải có từ 3 đến 15 ký tự và chỉ chứa chữ cái và số"
+                                }
                             })}
-                            placeholder='Username'
                         />
                         {errors.username && (
                             <p className='text-xs text-red-500 pt-0.5'>
@@ -66,13 +69,8 @@ const Login = () => {
                         </label>
                         <input
                             type='password'
-                            placeholder='password'
-                            {...register('password', {
-                                required: 'Password is required',
-                                minLength: {
-                                    value: 3,
-                                    message: 'Password must be at least 3 characters',
-                                },
+                            {...register("password", {
+                                required: "Vui lòng nhập mật khẩu"
                             })}
                             className='auth-modal-input'
                         />
@@ -92,7 +90,7 @@ const Login = () => {
                 </form>
                 <p className='text-sm w-full text-center mt-6 font-bold text-[#6B7E8B]'>
                     Bạn không có tài khoản?
-                    <span className='text-[#625BF7] cursor-pointer'>
+                    <span className='text-[#625BF7] cursor-pointer' onClick={() => navigate("/signup")}>
                         {' '}
                         Click vào đây
                     </span>
