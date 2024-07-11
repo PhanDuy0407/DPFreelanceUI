@@ -3,19 +3,47 @@ import { get } from '../../utils/request';
 import SimpleTable from '../../components/SimpleTable'
 import { JobStatusDot } from '../../components/StatusDot';
 import { formatDate } from '../../utils';
-import { JobType } from '../../utils/constant';
+import { JobType, JobStatus } from '../../utils/constant';
 import { useTabContext } from '../../utils/customHook/SideTabProvider';
 import ActionJob from '../../components/action/admin/ActionJob';
+import FilterComponent from '../../components/Filter';
+import useModal from '../../utils/customHook/useModal';
+import JobForm from './component/JobForm';
 
 const Jobs = () => {
     const [jobs, setJobs] = useState([]);
     const { setActiveTab } = useTabContext()
+    const [filters, setFilters] = useState({})
+    const [jobId, setJobId] = useState(null);
+    const { isOpen, openModal, closeModal } = useModal();
+
+    useEffect(() => {
+        if (jobId) {
+            openModal()
+        } else closeModal()
+    }, [jobId])
+
+
+    const handleApplyFilter = (filters) => {
+        let filter = {}
+        filters.forEach(element => {
+            let operation = "__eq"
+            if (element.operation === ">") {
+                operation = "__gt"
+            } else if (element.operation === "<") {
+                operation = "__lt"
+            }
+            const key = `${element.column}${operation}`
+            filter[key] = element.value.value || element.value
+        });
+        setFilters(filter)
+    };
 
     useEffect(() => {
         setActiveTab("jobs")
     }, [])
 
-    const { isLoading, data, refetch } = get("adminJobs", "/admin/jobs", { order_by: 'created_at:desc,status:asc' })
+    const { isLoading, data, refetch } = get(["adminJobs", filters], "/admin/jobs", { order_by: 'created_at:desc,status:asc', ...filters })
     useEffect(() => {
         if (data?.data) {
             const listJobs = data.data.map((job) => {
@@ -27,12 +55,13 @@ const Jobs = () => {
         }
     }, [data, isLoading])
 
+
     const columns = useMemo(
         () => [
             {
                 Header: 'Tên công việc',
                 accessor: 'name',
-                Cell: ({ row }) => <a className="text-blue hover:underline" href={`/recruiters/jobs/${row.original?.id}`}>{row.values.name}</a>
+                Cell: ({ row }) => <p className="text-blue hover:underline cursor-pointer" onClick={() => setJobId(row.original?.id)}>{row.values.name}</p>
             },
             {
                 Header: 'Loại',
@@ -54,18 +83,6 @@ const Jobs = () => {
                 }
             },
             {
-                Header: "Người thực hiện",
-                accessor: "pic",
-                Cell: ({ row }) => {
-                    if (row.original.job_applied) {
-                        return (row.original.job_applied?.applicant?.information?.fname && row.original.job_applied?.applicant?.information?.lname)
-                            ? `${row.original.job_applied?.applicant?.information?.fname} ${row.original.job_applied?.applicant?.information?.lname}`
-                            : row.original.job_applied?.applicant?.information?.email
-                    }
-                    else return null
-                }
-            },
-            {
                 Header: "Ngày tạo",
                 accessor: "created_at",
                 Cell: ({ row }) => formatDate(row.original.created_at)
@@ -79,8 +96,19 @@ const Jobs = () => {
         []
     );
 
+    const filterCols = {
+        status: { type: "select", name: "Trạng thái", operations: ["="], values: Object.values(JobStatus) },
+        name: { type: "text", name: "Tên công việc", operations: ["="] },
+        created_at: { type: "date", name: "Ngày tạo", operations: ["=", ">", "<"] },
+        type: { type: "select", name: "Loại", operations: ["="], values: Object.values(JobType) },
+    }
+
     return (
-        <SimpleTable columns={columns} data={jobs} loading={isLoading} />
+        <>
+            <FilterComponent columns={filterCols} onApplyFilter={handleApplyFilter} />
+            <SimpleTable columns={columns} data={jobs} loading={isLoading} />
+            {jobId && <JobForm id={jobId} isOpen={isOpen} closeModal={() => setJobId(null)} refecthChange={refetch} />}
+        </>
     )
 }
 

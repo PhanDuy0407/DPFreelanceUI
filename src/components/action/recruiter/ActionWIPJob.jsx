@@ -10,10 +10,10 @@ const ActionWIPJob = ({ data, refecthChange }) => {
 
     const markDone = () => {
         mutateStatus.mutateAsync({ url: `recruiters/jobs/${data.id}/mark_done` }).then(
-            () => notify("Success")
+            () => notify("Thành công")
         ).then(() => refecthChange()).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi", true)
         })
         setIsOpen(false);
     }

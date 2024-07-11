@@ -87,12 +87,12 @@ const RecruiterJobDetail = () => {
         }
         mutate.mutateAsync({ url: `/jobs/${id}`, data: payload }).then(
             (response) => {
-                notify("Success")
+                notify("Thành công")
                 navigate("/recruiters/jobs")
             }
         ).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi", true)
         })
     };
 
@@ -225,7 +225,6 @@ const RecruiterJobDetail = () => {
                                     className="auth-modal-input"
                                     rows={6}
                                     disabled={disableUpdate}
-                                    placeholder="Welcome to our job application form Please fill out the following fields to the best of your ability Your information will help us match you with the perfect opportunity Thank you for considering joining our team."
                                 />
                             </div>
                             <input

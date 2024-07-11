@@ -28,10 +28,11 @@ const router = createBrowserRouter([
     element: <App></App>,
     children: [
       { path: "/", element: <LandingPage /> },
-      { path: "/admin", element: <Navigate to={"/admin/analytics"} replace /> },
+      { path: "/admin", element: <Navigate to={"/admin/accounts"} replace /> },
       { path: "/admin/login", element: <ProtectedRoute Component={AdminLogin} isAdmin /> },
       { path: "/admin/analytics", element: <ProtectedRoute Component={Analytics} isAdmin /> },
       { path: "/admin/jobs", element: <ProtectedRoute Component={Jobs} isAdmin /> },
+      { path: "/admin/jobs/:id", element: <ProtectedRoute Component={JobDetail} isAdmin /> },
       { path: "/admin/applies", element: <ProtectedRoute Component={Applies} isAdmin /> },
       { path: "/admin/accounts", element: <ProtectedRoute Component={ManageAccounts} isAdmin /> },
       { path: "/signup/role", element: <ProtectedRoute Component={RegisterRole} /> },

@@ -1,5 +1,5 @@
 export const JobStatus = {
-    WAITING_FOR_APPROVE: {label: "Đang kiểm duyệt", value: "WAITING_FOR_APPROVE"},
+    WAITING_FOR_APPROVE: {label: "Đang chờ duyệt", value: "WAITING_FOR_APPROVE"},
     OPEN: {label: "Đang tuyển", value: "OPEN"},
     DENY: {label: "Không hợp lệ", value: "DENY"},
     REOPEN: {label: "Đang tuyển trở lại", value: "REOPEN"},

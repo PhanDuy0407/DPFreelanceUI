@@ -40,7 +40,7 @@ const SimpleTable = ({ columns, data, loading = false }) => {
               </td>
             </tr>
           )}
-          {rows.map(row => {
+          {!loading && rows.map(row => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>

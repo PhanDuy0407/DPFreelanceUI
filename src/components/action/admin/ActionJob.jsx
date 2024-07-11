@@ -12,20 +12,20 @@ const ActionJob = ({ data, refecthChange }) => {
     const changeStatus = (status) => {
         const payload = { status }
         mutateStatus.mutateAsync({ url: `admin/jobs/${data.id}/status`, data: payload }).then(
-            () => notify("Success")
+            () => notify("Thành công")
         ).then(() => refecthChange()).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi", true)
         })
         setIsOpen(false);
     }
 
     const deleteJob = () => {
         deleteAsync.mutateAsync({ url: `admin/jobs/${data.id}` }).then(
-            () => notify("Success")
+            () => notify("Thành công")
         ).then(() => refecthChange()).catch((error) => {
             console.log(error)
-            notify(error?.response?.data?.detail || "Network Error", true)
+            notify(error?.response?.data?.detail || "Lỗi", true)
         })
         setIsOpen(false);
     }
