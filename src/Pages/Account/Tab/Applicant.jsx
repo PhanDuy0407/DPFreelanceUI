@@ -19,6 +19,7 @@ const Applicant = (props) => {
         defaultValues: {
             work_time: applicant?.work_time || 0,
             bio: applicant?.bio || "",
+            title: applicant?.title || "",
             phone: applicant?.phone,
             city: applicant?.city,
             address: applicant?.address,
@@ -71,6 +72,27 @@ const Applicant = (props) => {
                     {errors.work_time && (
                         <p className='text-xs text-red-500 pt-0.5'>
                             {errors.work_time.message}
+                        </p>
+                    )}
+                </div>
+                <div className='mb-4'>
+                    <label htmlFor='title' className='input-label'>
+                        Mô tả ngắn
+                    </label>
+                    <textarea
+                        className="auth-modal-input"
+                        rows="4"
+                        {...register('title', {
+                            required: 'Vui lòng nhập mô tả bản thân',
+                            minLength: {
+                                value: 10,
+                                message: 'Mô tả phải có ít nhất 10 ký tự',
+                            }
+                        })}
+                    />
+                    {errors.title && (
+                        <p className='text-xs text-red-500 pt-0.5'>
+                            {errors.title.message}
                         </p>
                     )}
                 </div>

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../utils/customHook/useAuth';
-import { post } from '../../utils/request';
+import { post, uploadAvatarMutation } from '../../utils/request';
 import { notify } from '../../components/Toast';
 
 const Register = () => {
@@ -15,10 +15,23 @@ const Register = () => {
     const navigate = useNavigate();
     const { user, loadingUser, refetchUser } = useAuth();
     const mutation = post();
+    const uploadAva = uploadAvatarMutation()
+    const [avatarlink, setAvartarLink] = useState(null)
 
     useEffect(() => {
         if (user && !loadingUser) navigate("/account");
     }, [user, loadingUser]);
+
+    const handleAvatarChange = (event) => {
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('avatar', file);
+        uploadAva.mutate(formData, {
+            onSuccess: (data) => {
+                setAvartarLink(data.data.url)
+            },
+        });
+    }
 
     const onSubmit = (data) => {
         const payload = {
@@ -27,6 +40,7 @@ const Register = () => {
             fname: data.fname,
             lname: data.lname,
             email: data.email,
+            avatar: avatarlink,
         };
         mutation.mutateAsync({ url: "/auth/register", data: payload }).then(
             (response) => {
@@ -109,6 +123,16 @@ const Register = () => {
                                 {errors.lname.message}
                             </p>
                         )}
+                    </div>
+
+                    <div className='mb-4'>
+                        <label htmlFor='avatar' className='input-label'>Avatar</label>
+                        <input
+                            type="file"
+                            className="auth-modal-input"
+                            {...register('avatar')}
+                            onChange={handleAvatarChange}
+                        />
                     </div>
 
                     <div className='mb-4'>
