@@ -20,3 +20,14 @@ export const put = () => {
 export const deleteMutate = () => {
     return useMutation(({url}) => rootApi.delete(url))
 }
+
+export const uploadAvatarMutation = () => useMutation(uploadAvatar);
+
+const uploadAvatar = async (formData) => {
+    const response = await rootApi.post('/auth/upload-avatar', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return response.data;
+};
